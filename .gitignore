@@ -1,0 +1,9 @@
+# IDE support files
+*.tmproj
+target
+.idea
+out
+*.iml
+atlassian-ide-plugin.xml
+.gradle
+.DS_Store
