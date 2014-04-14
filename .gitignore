@@ -7,4 +7,5 @@ out
 atlassian-ide-plugin.xml
 .gradle
 .DS_Store
+META-INF
 xdcc-pi.log

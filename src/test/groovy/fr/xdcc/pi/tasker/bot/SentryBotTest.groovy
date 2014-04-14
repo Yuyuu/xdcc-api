@@ -4,6 +4,7 @@ import fr.xdcc.pi.tasker.service.TaskerService
 import org.jibble.pircbot.User
 import spock.lang.Specification
 
+@SuppressWarnings("GroovyAccessibility")
 class SentryBotTest extends Specification {
 
   SentryBot sentryBot
@@ -12,7 +13,7 @@ class SentryBotTest extends Specification {
   def setup() {
     sentryBot = new SentryBot("Sentry")
     taskerService = Mock(TaskerService)
-    sentryBot.setTaskerService(taskerService)
+    sentryBot.taskerService = taskerService
   }
 
   def "parses the senders properly"() {

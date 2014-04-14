@@ -104,8 +104,4 @@ public class FileListUpdaterBot extends PircBot {
       System.exit(1);
     }
   }
-
-  public void setTaskerService(TaskerService taskerService) {
-    this.taskerService = taskerService;
-  }
 }

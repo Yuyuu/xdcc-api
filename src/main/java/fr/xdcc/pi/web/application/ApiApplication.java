@@ -1,5 +1,6 @@
 package fr.xdcc.pi.web.application;
 
+import fr.xdcc.pi.tasker.scheduler.BotCheckerJob;
 import fr.xdcc.pi.tasker.scheduler.FileCheckerJob;
 import fr.xdcc.pi.web.filter.LogRequestFilter;
 import fr.xdcc.pi.web.resource.MongoBotResource;
@@ -15,40 +16,38 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public class ApiApplication {
 
   public static void main(String[] args) {
+
+    if (args.length < 1) {
+      System.err.println("Usage:\nxdcc-pi <port>");
+      System.exit(1);
+    }
+
+    int port = Integer.parseInt(args[0]);
+
     new WebServer(routes -> routes
         .add(MongoBotResource.class)
         .filter(LogRequestFilter.class)
         .get("/", "xdcc-pi Web Server")
-    ).start(8089);
+    ).start(port);
 
-    /*JobDetail job = newJob(BotCheckerJob.class)
+    JobDetail botJob = newJob(BotCheckerJob.class)
         .withIdentity("BotJob", "CheckerGroup").build();
-    Trigger trigger = newTrigger()
-        .withIdentity("TestTrigger", "CheckerGroup")
+    Trigger botTrigger = newTrigger()
+        .withIdentity("TestTriggerBotJob", "CheckerGroup")
         .startAt(futureDate(10, DateBuilder.IntervalUnit.SECOND))
         .build();
 
-    SchedulerFactory schedulerFactory = new StdSchedulerFactory();
-    Scheduler scheduler;
-    try {
-      scheduler = schedulerFactory.getScheduler();
-      scheduler.scheduleJob(job, trigger);
-      scheduler.start();
-    } catch (SchedulerException e) {
-      e.printStackTrace();
-    }*/
-
-    /*JobDetail job = newJob(FileCheckerJob.class)
+    JobDetail fileJob = newJob(FileCheckerJob.class)
         .withIdentity("FileJob", "CheckerGroup")
         .usingJobData("max", 5)
         .usingJobData("offset", 0)
         .build();
-    Trigger trigger = newTrigger()
-        .withIdentity("TestTrigger", "CheckerGroup")
-        .startAt(futureDate(10, DateBuilder.IntervalUnit.SECOND))
+    Trigger fileTrigger = newTrigger()
+        .withIdentity("TestTriggerFileJob", "CheckerGroup")
+        .startAt(futureDate(20, DateBuilder.IntervalUnit.MINUTE))
         .withSchedule(
             simpleSchedule()
-                .withIntervalInSeconds(30)
+                .withIntervalInMinutes(20)
                 .repeatForever()
         )
         .build();
@@ -57,10 +56,11 @@ public class ApiApplication {
     Scheduler scheduler;
     try {
       scheduler = schedulerFactory.getScheduler();
-      scheduler.scheduleJob(job, trigger);
+      scheduler.scheduleJob(botJob, botTrigger);
+      scheduler.scheduleJob(fileJob, fileTrigger);
       scheduler.start();
     } catch (SchedulerException e) {
       e.printStackTrace();
-    }*/
+    }
   }
 }

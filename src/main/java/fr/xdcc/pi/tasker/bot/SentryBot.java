@@ -50,6 +50,11 @@ public class SentryBot extends PircBot {
     } else {
       LOG.debug("No bot sender found on {}", channel);
     }
+
+    if (isConnected()) {
+      disconnect();
+      dispose();
+    }
   }
 
   @Override
@@ -65,9 +70,5 @@ public class SentryBot extends PircBot {
   @Override
   protected void onDisconnect() {
     LOG.debug("SentryBot disconnected from server");
-  }
-
-  public void setTaskerService(TaskerService taskerService) {
-    this.taskerService = taskerService;
   }
 }

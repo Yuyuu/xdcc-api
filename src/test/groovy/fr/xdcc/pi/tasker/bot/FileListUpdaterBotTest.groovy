@@ -4,6 +4,7 @@ import fr.xdcc.pi.tasker.service.TaskerService
 import org.jibble.pircbot.DccFileTransfer
 import spock.lang.Specification
 
+@SuppressWarnings("GroovyAccessibility")
 class FileListUpdaterBotTest extends Specification {
 
   FileListUpdaterBot bot
@@ -12,13 +13,13 @@ class FileListUpdaterBotTest extends Specification {
   def setup() {
     taskerService = Mock(TaskerService)
     bot = new FileListUpdaterBot("name", 1)
-    bot.setTaskerService(taskerService);
+    bot.taskerService = taskerService
   }
 
   def "onFileTransferFinished - The bot still has remaining tasks"() {
     given: "the bot has two tasks"
     bot = new FileListUpdaterBot('name', 2)
-    bot.setTaskerService(taskerService);
+    bot.taskerService = taskerService
 
     and: "a File"
     File file = new File("spock.txt")
