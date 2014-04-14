@@ -5,6 +5,7 @@ import fr.xdcc.pi.model.bot.MongoBot
 import fr.xdcc.pi.model.file.ConcreteFile
 import fr.xdcc.pi.model.service.MongoBotService
 import fr.xdcc.pi.tasker.parser.Parser
+import fr.xdcc.pi.tasker.parser.XdccListFileParser
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyAccessibility")

@@ -1,5 +1,6 @@
 package fr.xdcc.pi.web.application;
 
+import fr.xdcc.pi.tasker.scheduler.FileCheckerJob;
 import fr.xdcc.pi.web.filter.LogRequestFilter;
 import fr.xdcc.pi.web.resource.MongoBotResource;
 import net.codestory.http.WebServer;
