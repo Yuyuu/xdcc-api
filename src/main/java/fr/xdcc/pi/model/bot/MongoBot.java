@@ -1,6 +1,7 @@
 package fr.xdcc.pi.model.bot;
 
 
+import com.google.common.collect.Sets;
 import fr.xdcc.pi.model.file.ConcreteFile;
 import org.bson.types.ObjectId;
 
@@ -14,7 +15,7 @@ public class MongoBot implements Bot {
   @SuppressWarnings("UnusedDeclaration")
   private ObjectId _id;
   private String name;
-  private LinkedHashSet<ConcreteFile> fileSet;
+  private LinkedHashSet<ConcreteFile> fileSet = Sets.newLinkedHashSet();
 
   // Required to instanciate object with Jackson
   @SuppressWarnings("UnusedDeclaration")
@@ -22,7 +23,6 @@ public class MongoBot implements Bot {
 
   public MongoBot(String name) {
     this.name = name;
-    fileSet = new LinkedHashSet<>();
   }
 
   @Override

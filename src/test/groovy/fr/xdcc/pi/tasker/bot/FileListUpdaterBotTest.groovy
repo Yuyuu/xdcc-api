@@ -89,7 +89,7 @@ class FileListUpdaterBotTest extends Specification {
   def "file is received when sender is authorized"() {
     given: "a File"
     File file = new File("spock.exe")
-    File savedFile = new File(System.getProperty('user.home') + "/Downloads/xdcc/spock.exe.txt")
+    File savedFile = new File("./lists/spock.exe.txt")
 
     and: "a mocked DccFileTransfer"
     DccFileTransfer dccFileTransfer = Mock(DccFileTransfer)

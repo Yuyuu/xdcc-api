@@ -17,8 +17,7 @@ import java.io.File;
 public class FileListUpdaterBot extends PircBot {
 
   private static final Logger LOG = LoggerFactory.getLogger(FileListUpdaterBot.class);
-  private static final String BASE_DIRECTORY = System.getProperty("user.home") +
-      File.separator + "Downloads" + File.separator + "xdcc" + File.separator;
+  private static final String BASE_DIRECTORY = "." + File.separator + "lists" + File.separator;
 
   private TaskerService taskerService;
 
@@ -28,6 +27,7 @@ public class FileListUpdaterBot extends PircBot {
 
   public FileListUpdaterBot(String name, int nbTasksToAchieve) {
     setName(name);
+    setLogin(name);
     setAutoNickChange(true);
     this.nbTasksToAchieve = nbTasksToAchieve;
     nbTasksAchieved = 0;

@@ -1,5 +1,6 @@
 package fr.xdcc.pi.tasker.parser;
 
+import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class XdccListFileParser implements Parser {
    */
   @Override
   public Map<String, String> parse(File file) {
-    packMap = new LinkedHashMap<>();
+    packMap = Maps.newLinkedHashMap();
     Path pathToFile = FileSystems.getDefault().getPath(file.getAbsolutePath());
 
     try {

@@ -1,6 +1,7 @@
 # IDE support files
 *.tmproj
 target
+build
 .idea
 out
 *.iml

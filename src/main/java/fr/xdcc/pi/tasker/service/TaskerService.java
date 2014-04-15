@@ -1,5 +1,6 @@
 package fr.xdcc.pi.tasker.service;
 
+import com.google.common.collect.Sets;
 import fr.xdcc.pi.model.bot.Bot;
 import fr.xdcc.pi.model.bot.MongoBot;
 import fr.xdcc.pi.model.file.ConcreteFile;
@@ -10,22 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TaskerService {
 
   private static final Logger LOG = LoggerFactory.getLogger(TaskerService.class);
 
-  private MongoBotService mongoBotService;
-  private Parser parser;
-
-  public TaskerService() {
-    mongoBotService = new MongoBotService();
-    parser = new XdccListFileParser();
-  }
+  private MongoBotService mongoBotService = new MongoBotService();
+  private Parser parser = new XdccListFileParser();
 
   /**
    * Updates the list of available files of a bot if it was changed
@@ -34,10 +30,10 @@ public class TaskerService {
    */
   public void updateAvailableFiles(File updatedList, String botName) {
     Map<String, String> packMap = parser.parse(updatedList);
-    LinkedHashSet<ConcreteFile> concreteFileSet = new LinkedHashSet<>();
+    LinkedHashSet<ConcreteFile> concreteFileSet = Sets.newLinkedHashSet();
 
     // TODO Meh..
-    packMap.entrySet().forEach(entry ->
+    packMap.entrySet().stream().forEach(entry ->
         concreteFileSet.add(new ConcreteFile(entry.getKey(), entry.getValue()))
     );
 
@@ -59,9 +55,8 @@ public class TaskerService {
     Iterable<MongoBot> savedBotList = mongoBotService.getBotsIn(botNameList);
     savedBotList.forEach(bot -> botNameList.remove(bot.getName()));
 
-    List<MongoBot> botToUpdateList = new ArrayList<>();
-    botNameList.forEach(botName -> botToUpdateList.add(new MongoBot(botName)));
+    List<MongoBot> botToUpdateList = botNameList.stream().map(MongoBot::new).collect(Collectors.toList());
 
-    botToUpdateList.forEach(mongoBotService::insert);
+    botToUpdateList.stream().forEach(mongoBotService::insert);
   }
 }
