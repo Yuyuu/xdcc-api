@@ -2,6 +2,7 @@ package fr.xdcc.pi.model.service;
 
 import fr.xdcc.pi.model.bot.MongoBot;
 import fr.xdcc.pi.model.persistence.MongoManager;
+import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,19 +38,21 @@ public class MongoBotService {
   }
 
   /**
-   * Retrieves a MongoBot from the database using its name.
-   * If it could not be found, a new MongoBot is instanciated.
-   * @param botName the name of the MongoBot to retrieve
-   * @return the retrieved or instanciated MongoBot
+   * Retrieves a MongoBot by its id.
+   * @param mongoBotId the id of the MongoBot to retrieve
+   * @return the retrieved MongoBot
    */
-  public MongoBot get(String botName) {
-    MongoBot mongoBot = mongoBotCollection.findOne("{name: #}", botName).as(MongoBot.class);
-    if (mongoBot == null) {
-      LOG.info("Unsaved bot {} queried and created", botName);
-      mongoBot = new MongoBot(botName);
-    }
+  public MongoBot get(ObjectId mongoBotId) {
+    return mongoBotCollection.findOne(mongoBotId).as(MongoBot.class);
+  }
 
-    return mongoBot;
+  /**
+   * Retrieves a MongoBot from the database using its name.
+   * @param botName the name of the MongoBot to retrieve
+   * @return the retrieved MongoBot
+   */
+  public MongoBot findByName(String botName) {
+    return mongoBotCollection.findOne("{name: #}", botName).as(MongoBot.class);
   }
 
   /**

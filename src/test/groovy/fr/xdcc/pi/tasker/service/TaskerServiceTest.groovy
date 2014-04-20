@@ -33,7 +33,7 @@ class TaskerServiceTest extends Specification {
     def botName = "bot"
     Bot bot = Mock(MongoBot)
     bot.fileSet >> new LinkedHashSet<ConcreteFile>()
-    mongoBotService.get(botName) >> bot
+    mongoBotService.findByName(botName) >> bot
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)
@@ -54,7 +54,7 @@ class TaskerServiceTest extends Specification {
     def botName = "bot"
     Bot bot = Mock(MongoBot)
     bot.fileSet >> new LinkedHashSet<ConcreteFile>()
-    mongoBotService.get(botName) >> bot
+    mongoBotService.findByName(botName) >> bot
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)

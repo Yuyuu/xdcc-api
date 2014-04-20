@@ -37,7 +37,11 @@ public class TaskerService {
         concreteFileSet.add(new ConcreteFile(entry.getKey(), entry.getValue()))
     );
 
-    Bot bot = mongoBotService.get(botName);
+    Bot bot = mongoBotService.findByName(botName);
+    if (bot == null) {
+      bot = new MongoBot(botName);
+    }
+
     if (!concreteFileSet.equals(bot.getFileSet())) {
       bot.setFileSet(concreteFileSet);
       mongoBotService.update((MongoBot) bot);

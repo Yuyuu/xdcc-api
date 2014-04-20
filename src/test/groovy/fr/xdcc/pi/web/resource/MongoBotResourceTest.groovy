@@ -49,29 +49,13 @@ class MongoBotResourceTest extends Specification {
     bot.name >> "bot"
     bot.fileSet >> fileSet
 
-    and: "get method of MongoBotService returns the previous mocked bot"
-    mongoBotService.get(bot.name) >> bot
+    and: "findByName method of MongoBotService returns the previous mocked bot"
+    mongoBotService.findByName(bot.name) >> bot
 
     when: "show method is called"
     def result = mongoBotResource.show(bot.name)
 
     then: "the returned set should match the following"
     result == fileSet
-  }
-
-  def "count"() {
-    given: "a random bot name"
-    MongoBot bot = Mock(MongoBot)
-    bot.name >> "botName"
-    bot.fileSet >> ([Mock(ConcreteFile), Mock(ConcreteFile)] as LinkedHashSet)
-
-    and: "get method of MongoBotService returns the previous mocked bot"
-    mongoBotService.get(bot.name) >> bot
-
-    when: "count method is called"
-    def result = mongoBotResource.count(bot.name)
-
-    then: "the returned value should matchnthe size of the mocked file set"
-    result == bot.fileSet.size()
   }
 }

@@ -77,13 +77,13 @@ class MongoBotServiceTest extends Specification {
   }
 
   def "get - Bot exists"() {
-    expect: "get method to returned MongoBot 5 when its name is passed"
-    mongoBotService.get(mongoBot5.name) == mongoBot5
+    expect: "findByName method to returned MongoBot 5 when its name is passed"
+    mongoBotService.findByName(mongoBot5.name) == mongoBot5
   }
 
   def "get - Bot is not saved"() {
-    when: "calling get with a name not matching any saved MongoBot"
-    def result = mongoBotService.get("Random")
+    when: "calling findByName with a name not matching any saved MongoBot"
+    def result = mongoBotService.findByName("Random")
 
     then: "a new instantiated but unsaved MongoBot should be returned"
     !result.id
@@ -96,7 +96,7 @@ class MongoBotServiceTest extends Specification {
 
     when: "inserting the bot"
     mongoBotService.insert(mongoBot)
-    def result = mongoBotService.get(mongoBot.name)
+    def result = mongoBotService.findByName(mongoBot.name)
 
     then: "the bot should be saved in the database"
     result.id
@@ -113,7 +113,7 @@ class MongoBotServiceTest extends Specification {
     when: "Adding another ConcreteFile to the bot and calling update method"
     mongoBot.fileSet.add(new ConcreteFile("#3", "Third.Episode.avi"))
     mongoBotService.update(mongoBot)
-    def result = mongoBotService.get(mongoBot.name)
+    def result = mongoBotService.findByName(mongoBot.name)
 
     then: "the bot should have been updated in the database"
     result == mongoBot
