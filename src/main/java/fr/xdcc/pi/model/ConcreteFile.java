@@ -1,4 +1,4 @@
-package fr.xdcc.pi.model.file;
+package fr.xdcc.pi.model;
 
 public class ConcreteFile {
 

@@ -1,8 +1,8 @@
 package fr.xdcc.pi.web.resource
 
-import fr.xdcc.pi.model.bot.mongo.MongoBot
-import fr.xdcc.pi.model.file.ConcreteFile
-import fr.xdcc.pi.model.service.MongoBotService
+import fr.xdcc.pi.model.MongoBot
+import fr.xdcc.pi.model.ConcreteFile
+import fr.xdcc.pi.persistence.mongo.MongoBotService
 import org.bson.types.ObjectId
 import spock.lang.Specification
 

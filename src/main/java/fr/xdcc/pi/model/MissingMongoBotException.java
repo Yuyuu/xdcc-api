@@ -1,4 +1,4 @@
-package fr.xdcc.pi.model.bot;
+package fr.xdcc.pi.model;
 
 import org.bson.types.ObjectId;
 

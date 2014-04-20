@@ -1,8 +1,8 @@
 package fr.xdcc.pi.web.resource;
 
 import com.google.common.collect.Lists;
-import fr.xdcc.pi.model.bot.mongo.MongoBot;
-import fr.xdcc.pi.model.service.MongoBotService;
+import fr.xdcc.pi.model.MongoBot;
+import fr.xdcc.pi.persistence.mongo.MongoBotService;
 import fr.xdcc.pi.web.marshaller.Marshaller;
 import fr.xdcc.pi.web.marshaller.MongoBotMarshaller;
 import net.codestory.http.annotations.Get;

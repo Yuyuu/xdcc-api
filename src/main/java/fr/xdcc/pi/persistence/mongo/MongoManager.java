@@ -1,4 +1,4 @@
-package fr.xdcc.pi.model.persistence;
+package fr.xdcc.pi.persistence.mongo;
 
 import com.mongodb.DB;
 import com.mongodb.MongoClient;

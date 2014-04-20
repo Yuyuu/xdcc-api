@@ -1,7 +1,7 @@
 package fr.xdcc.pi.tasker.scheduler;
 
-import fr.xdcc.pi.model.bot.mongo.MongoBot;
-import fr.xdcc.pi.model.service.MongoBotService;
+import fr.xdcc.pi.model.MongoBot;
+import fr.xdcc.pi.persistence.mongo.MongoBotService;
 import fr.xdcc.pi.tasker.bot.FileListUpdaterBot;
 import org.jibble.pircbot.IrcException;
 import org.quartz.*;

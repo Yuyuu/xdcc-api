@@ -1,9 +1,7 @@
-package fr.xdcc.pi.model.bot.mongo;
+package fr.xdcc.pi.model;
 
 
 import com.google.common.collect.Sets;
-import fr.xdcc.pi.model.bot.Bot;
-import fr.xdcc.pi.model.file.ConcreteFile;
 import org.bson.types.ObjectId;
 
 import java.util.LinkedHashSet;

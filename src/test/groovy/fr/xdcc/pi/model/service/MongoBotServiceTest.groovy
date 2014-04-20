@@ -2,8 +2,9 @@ package fr.xdcc.pi.model.service
 
 import com.github.fakemongo.Fongo
 import com.mongodb.DB
-import fr.xdcc.pi.model.bot.mongo.MongoBot
-import fr.xdcc.pi.model.file.ConcreteFile
+import fr.xdcc.pi.model.MongoBot
+import fr.xdcc.pi.model.ConcreteFile
+import fr.xdcc.pi.persistence.mongo.MongoBotService
 import org.jongo.Jongo
 import org.jongo.MongoCollection
 import spock.lang.Specification

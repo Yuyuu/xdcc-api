@@ -1,6 +1,5 @@
-package fr.xdcc.pi.model.bot;
+package fr.xdcc.pi.model;
 
-import fr.xdcc.pi.model.file.ConcreteFile;
 import org.bson.types.ObjectId;
 
 import java.util.LinkedHashSet;

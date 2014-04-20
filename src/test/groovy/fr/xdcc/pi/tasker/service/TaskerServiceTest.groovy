@@ -1,9 +1,9 @@
 package fr.xdcc.pi.tasker.service
 
-import fr.xdcc.pi.model.bot.Bot
-import fr.xdcc.pi.model.bot.mongo.MongoBot
-import fr.xdcc.pi.model.file.ConcreteFile
-import fr.xdcc.pi.model.service.MongoBotService
+import fr.xdcc.pi.model.Bot
+import fr.xdcc.pi.model.MongoBot
+import fr.xdcc.pi.model.ConcreteFile
+import fr.xdcc.pi.persistence.mongo.MongoBotService
 import fr.xdcc.pi.tasker.parser.Parser
 import fr.xdcc.pi.tasker.parser.XdccListFileParser
 import spock.lang.Specification
