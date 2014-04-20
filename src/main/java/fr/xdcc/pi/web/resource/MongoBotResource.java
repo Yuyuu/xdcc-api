@@ -19,7 +19,7 @@ public class MongoBotResource extends AbstractResource {
   }
 
   @Get("/bot")
-  public List list() {
+  public List<Map<String, Object>> list() {
     Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
     Iterable<MongoBot> mongoBots = mongoBotService.list();
     List<Map<String, Object>> botRepresentationList = Lists.newArrayList();
@@ -28,7 +28,7 @@ public class MongoBotResource extends AbstractResource {
   }
 
   @Get("/bot/:id")
-  public Map show(String id) {
+  public Map<String, Object> show(String id) {
     Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
     MongoBot mongoBot = mongoBotService.get(parseObjectId(id));
     // TODO : Missing bot
