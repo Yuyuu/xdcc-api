@@ -31,7 +31,7 @@ public class ApiApplication {
         .filter(LogRequestFilter.class)
     ).start(port);
 
-    JobDetail botJob = newJob(BotCheckerJob.class)
+    /*JobDetail botJob = newJob(BotCheckerJob.class)
         .withIdentity("BotJob", "CheckerGroup").build();
     Trigger botTrigger = newTrigger()
         .withIdentity("TestTriggerBotJob", "CheckerGroup")
@@ -62,6 +62,6 @@ public class ApiApplication {
       scheduler.start();
     } catch (SchedulerException e) {
       e.printStackTrace();
-    }
+    }*/
   }
 }

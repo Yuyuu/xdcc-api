@@ -1,7 +1,8 @@
 package fr.xdcc.pi.model.service;
 
-import fr.xdcc.pi.model.bot.MongoBot;
+import fr.xdcc.pi.model.bot.mongo.MongoBot;
 import fr.xdcc.pi.model.persistence.MongoManager;
+import fr.xdcc.pi.model.bot.MissingMongoBotException;
 import org.bson.types.ObjectId;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
@@ -41,9 +42,15 @@ public class MongoBotService {
    * Retrieves a MongoBot by its id.
    * @param mongoBotId the id of the MongoBot to retrieve
    * @return the retrieved MongoBot
+   * @throws fr.xdcc.pi.model.bot.MissingMongoBotException if no MongoBot matches the given id
    */
   public MongoBot get(ObjectId mongoBotId) {
-    return mongoBotCollection.findOne(mongoBotId).as(MongoBot.class);
+    MongoBot mongoBot =  mongoBotCollection.findOne(mongoBotId).as(MongoBot.class);
+    if (mongoBot == null) {
+      throw new MissingMongoBotException(mongoBotId);
+    }
+
+    return mongoBot;
   }
 
   /**

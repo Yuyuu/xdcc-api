@@ -1,7 +1,7 @@
 package fr.xdcc.pi.web.resource;
 
 import com.google.common.collect.Lists;
-import fr.xdcc.pi.model.bot.MongoBot;
+import fr.xdcc.pi.model.bot.mongo.MongoBot;
 import fr.xdcc.pi.model.service.MongoBotService;
 import fr.xdcc.pi.web.marshaller.Marshaller;
 import fr.xdcc.pi.web.marshaller.MongoBotMarshaller;
@@ -31,7 +31,6 @@ public class MongoBotResource extends AbstractResource {
   public Map<String, Object> show(String id) {
     Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
     MongoBot mongoBot = mongoBotService.get(parseObjectId(id));
-    // TODO : Missing bot
     return mongoBotMarshaller.marshall(mongoBot);
   }
 }

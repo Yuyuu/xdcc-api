@@ -2,7 +2,7 @@ package fr.xdcc.pi.model.service
 
 import com.github.fakemongo.Fongo
 import com.mongodb.DB
-import fr.xdcc.pi.model.bot.MongoBot
+import fr.xdcc.pi.model.bot.mongo.MongoBot
 import fr.xdcc.pi.model.file.ConcreteFile
 import org.jongo.Jongo
 import org.jongo.MongoCollection

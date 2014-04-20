@@ -2,7 +2,7 @@ package fr.xdcc.pi.tasker.service;
 
 import com.google.common.collect.Sets;
 import fr.xdcc.pi.model.bot.Bot;
-import fr.xdcc.pi.model.bot.MongoBot;
+import fr.xdcc.pi.model.bot.mongo.MongoBot;
 import fr.xdcc.pi.model.file.ConcreteFile;
 import fr.xdcc.pi.model.service.MongoBotService;
 import fr.xdcc.pi.tasker.parser.Parser;

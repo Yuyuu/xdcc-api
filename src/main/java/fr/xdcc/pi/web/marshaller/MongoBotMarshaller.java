@@ -1,7 +1,7 @@
 package fr.xdcc.pi.web.marshaller;
 
 import com.google.common.collect.Maps;
-import fr.xdcc.pi.model.bot.MongoBot;
+import fr.xdcc.pi.model.bot.mongo.MongoBot;
 
 import java.util.Map;
 
