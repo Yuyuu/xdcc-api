@@ -1,4 +1,4 @@
-package fr.xdcc.pi.model.service
+package fr.xdcc.pi.persistence.mongo
 
 import com.github.fakemongo.Fongo
 import com.mongodb.DB
