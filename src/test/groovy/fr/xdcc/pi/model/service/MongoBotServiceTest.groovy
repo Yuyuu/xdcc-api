@@ -76,18 +76,17 @@ class MongoBotServiceTest extends Specification {
     !result.iterator().hasNext()
   }
 
-  def "get - Bot exists"() {
+  def "findByName - Bot exists"() {
     expect: "findByName method to returned MongoBot 5 when its name is passed"
     mongoBotService.findByName(mongoBot5.name) == mongoBot5
   }
 
-  def "get - Bot is not saved"() {
+  def "findByName - Bot is not saved"() {
     when: "calling findByName with a name not matching any saved MongoBot"
     def result = mongoBotService.findByName("Random")
 
-    then: "a new instantiated but unsaved MongoBot should be returned"
-    !result.id
-    result.getName() == "Random"
+    then: "null is returned"
+    result == null
   }
 
   def "insert"() {
