@@ -1,6 +1,5 @@
 # IDE support files
 *.tmproj
-target
 build
 .idea
 out
@@ -10,3 +9,4 @@ atlassian-ide-plugin.xml
 .DS_Store
 META-INF
 xdcc-pi.log
+lists

@@ -11,12 +11,10 @@ repositories {
 
 compileJava.options.encoding = 'UTF-8'
 
-project.buildDir = 'target'
-
 dependencies {
   compile 'com.google.guava:guava:16.0.1'
 
-  compile ('net.code-story:http:1.33') {
+  compile ('net.code-story:http:1.45') {
     exclude module: 'slf4j-simple'
   }
 
