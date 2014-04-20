@@ -3,6 +3,7 @@ package fr.xdcc.pi.web.application;
 import fr.xdcc.pi.tasker.scheduler.BotCheckerJob;
 import fr.xdcc.pi.tasker.scheduler.FileCheckerJob;
 import fr.xdcc.pi.web.filter.LogRequestFilter;
+import fr.xdcc.pi.web.resource.HomeResource;
 import fr.xdcc.pi.web.resource.MongoBotResource;
 import net.codestory.http.WebServer;
 import org.quartz.*;
@@ -25,9 +26,9 @@ public class ApiApplication {
     int port = Integer.parseInt(args[0]);
 
     new WebServer(routes -> routes
+        .add(HomeResource.class)
         .add(MongoBotResource.class)
         .filter(LogRequestFilter.class)
-        .get("/", "xdcc-pi Web Server")
     ).start(port);
 
     JobDetail botJob = newJob(BotCheckerJob.class)
