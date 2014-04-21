@@ -1,8 +1,8 @@
 package fr.xdcc.pi.web.resource
 
 import fr.xdcc.pi.model.MongoBot
-import fr.xdcc.pi.model.ConcreteFile
 import fr.xdcc.pi.persistence.mongo.MongoBotService
+import fr.xdcc.pi.web.marshaller.Marshaller
 import org.bson.types.ObjectId
 import spock.lang.Specification
 
@@ -11,69 +11,58 @@ class MongoBotResourceTest extends Specification {
 
   MongoBotResource mongoBotResource
   MongoBotService mongoBotService
+  Marshaller<MongoBot> mongoBotMarshaller
 
   def setup() {
     mongoBotResource = new MongoBotResource()
     mongoBotService = Mock(MongoBotService)
+    mongoBotMarshaller = Mock(Marshaller)
 
     mongoBotResource.mongoBotService = mongoBotService
+    mongoBotResource.mongoBotMarshaller = mongoBotMarshaller
   }
 
   def "get"() {
     given: "some mocked bots"
     MongoBot bot1 = Mock(MongoBot)
-    ObjectId id1 = new ObjectId()
-    bot1.id >> id1
     bot1.name >> "bot1"
-    ConcreteFile concreteFile = Mock(ConcreteFile)
-    bot1.fileSet >> [concreteFile]
 
     MongoBot bot2 = Mock(MongoBot)
-    ObjectId id2 = new ObjectId()
-    bot2.id >> id2
     bot2.name >> "bot2"
-    bot2.fileSet >> []
 
     def botList = [bot1, bot2]
 
-    and: "list method of MongoBotService returns a list of the previous MongoBots"
+    and:
     mongoBotService.list() >> botList
+    mongoBotMarshaller.marshall(bot1) >> marshallBot(bot1)
+    mongoBotMarshaller.marshall(bot2) >> marshallBot(bot2)
 
     when: "list method is called"
     def result = mongoBotResource.list()
 
-    then: "the returned list should contain the following elements"
-    result.size() == 2
-    result.get(0).id == bot1.id.toStringMongod()
-    result.get(0).name == bot1.name
-    result.get(0).fileSet == bot1.fileSet
-    result.get(1).id == bot2.id.toStringMongod()
-    result.get(1).name == bot2.name
-    result.get(1).fileSet == bot2.fileSet
+    then: "the returned list should contain the marshalled bots"
+    result == [marshallBot(bot1), marshallBot(bot2)]
   }
 
   def "show"() {
-    given: "a file set"
-    LinkedHashSet<ConcreteFile> fileSet = new LinkedHashSet<>()
-    fileSet.add(new ConcreteFile("#1", "Pack1"))
-    fileSet.add(new ConcreteFile("#2", "Pack2"))
-
-    and: "a mocked bot"
+    given: "a mocked bot"
     MongoBot bot = Mock(MongoBot)
     ObjectId id = new ObjectId()
     bot.id >> id
     bot.name >> "bot"
-    bot.fileSet >> fileSet
 
-    and: "get method of MongoBotService returns the previous mocked bot"
+    and:
     mongoBotService.get(bot.id) >> bot
+    mongoBotMarshaller.marshall(bot) >> marshallBot(bot)
 
     when: "show method is called"
-    def result = mongoBotResource.show(bot.id.toStringMongod())
+    def result = mongoBotResource.show(id.toStringMongod())
 
-    then: "the returned map should contan the following elements"
-    result.id == bot.id.toStringMongod()
-    result.name == bot.name
-    result.fileSet == fileSet
+    then: "the returned map should contain the marshalled bot"
+    result == marshallBot(bot)
+  }
+
+  private static Map marshallBot(MongoBot bot) {
+    return [name: bot.name]
   }
 }

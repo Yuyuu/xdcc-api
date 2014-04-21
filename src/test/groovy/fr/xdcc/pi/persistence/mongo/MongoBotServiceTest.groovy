@@ -1,10 +1,12 @@
 package fr.xdcc.pi.persistence.mongo
 
 import com.github.fakemongo.Fongo
+import com.google.common.collect.Lists
 import com.mongodb.DB
-import fr.xdcc.pi.model.MongoBot
 import fr.xdcc.pi.model.ConcreteFile
-import fr.xdcc.pi.persistence.mongo.MongoBotService
+import fr.xdcc.pi.model.MissingMongoBotException
+import fr.xdcc.pi.model.MongoBot
+import org.bson.types.ObjectId
 import org.jongo.Jongo
 import org.jongo.MongoCollection
 import spock.lang.Specification
@@ -75,6 +77,24 @@ class MongoBotServiceTest extends Specification {
     then: "an Iterable containing the MongoBot 5 should be returned"
     result.iterator().next() == mongoBot5
     !result.iterator().hasNext()
+  }
+
+  def "get - bot is missing"() {
+    given: "a new ObjectId"
+    ObjectId id = new ObjectId()
+
+    when: "calling get"
+    mongoBotService.get(id)
+
+    then: "a MissingMongoBotException is thrown"
+    thrown(MissingMongoBotException)
+  }
+
+  def "get"() {
+    expect:
+    Lists.newArrayList(mongoBot1, mongoBot2, mongoBot3, mongoBot4, mongoBot5).every {
+      mongoBotService.get(it.id) == it
+    }
   }
 
   def "findByName - Bot exists"() {
