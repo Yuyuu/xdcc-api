@@ -2,6 +2,7 @@ package fr.xdcc.pi.web.resource
 
 import fr.xdcc.pi.model.MongoBot
 import fr.xdcc.pi.persistence.mongo.MongoBotService
+import fr.xdcc.pi.web.marshaller.Format
 import fr.xdcc.pi.web.marshaller.Marshaller
 import org.bson.types.ObjectId
 import spock.lang.Specification
@@ -22,7 +23,7 @@ class MongoBotResourceTest extends Specification {
     mongoBotResource.mongoBotMarshaller = mongoBotMarshaller
   }
 
-  def "get"() {
+  def "list"() {
     given: "some mocked bots"
     MongoBot bot1 = Mock(MongoBot)
     bot1.name >> "bot1"
@@ -34,8 +35,8 @@ class MongoBotResourceTest extends Specification {
 
     and:
     mongoBotService.list() >> botList
-    mongoBotMarshaller.marshall(bot1) >> marshallBot(bot1)
-    mongoBotMarshaller.marshall(bot2) >> marshallBot(bot2)
+    mongoBotMarshaller.marshall(bot1, Format.SHORT) >> marshallBot(bot1)
+    mongoBotMarshaller.marshall(bot2, Format.SHORT) >> marshallBot(bot2)
 
     when: "list method is called"
     def result = mongoBotResource.list()
@@ -53,7 +54,7 @@ class MongoBotResourceTest extends Specification {
 
     and:
     mongoBotService.get(bot.id) >> bot
-    mongoBotMarshaller.marshall(bot) >> marshallBot(bot)
+    mongoBotMarshaller.marshall(bot, Format.FULL) >> marshallBot(bot)
 
     when: "show method is called"
     def result = mongoBotResource.show(id.toStringMongod())
