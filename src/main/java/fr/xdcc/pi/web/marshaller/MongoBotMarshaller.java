@@ -25,6 +25,7 @@ public class MongoBotMarshaller implements Marshaller<MongoBot> {
     Map<String, Object> mongoBotRepresentation = Maps.newLinkedHashMap();
     mongoBotRepresentation.put("id", mongoBot.getId().toStringMongod());
     mongoBotRepresentation.put("name", mongoBot.getName());
+    mongoBotRepresentation.put("fileCount", mongoBot.getFileSet().size());
     return mongoBotRepresentation;
   }
 
