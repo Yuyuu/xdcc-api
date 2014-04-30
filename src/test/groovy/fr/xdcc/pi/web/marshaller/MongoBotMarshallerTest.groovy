@@ -30,9 +30,10 @@ class MongoBotMarshallerTest extends Specification {
     def result = mongoBotMarshaller.marshall(bot, Format.FULL)
 
     then: "the returned map should contain the following elements"
-    result.size() == 3
+    result.size() == 4
     result.id == bot.id.toStringMongod()
     result.name == bot.name
+    result.fileCount == 2
     result.fileSet == fileSet
   }
 
@@ -42,13 +43,15 @@ class MongoBotMarshallerTest extends Specification {
     ObjectId id = new ObjectId()
     bot.id >> id
     bot.name >> "bot"
+    bot.fileSet >> []
 
     when:
     def result = mongoBotMarshaller.marshall(bot, Format.SHORT)
 
     then: "the returned map should contain the following elements"
-    result.size() == 2
+    result.size() == 3
     result.id == bot.id.toStringMongod()
     result.name == bot.name
+    result.fileCount == 0
   }
 }
