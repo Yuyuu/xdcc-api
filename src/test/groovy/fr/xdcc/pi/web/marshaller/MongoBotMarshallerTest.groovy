@@ -19,21 +19,25 @@ class MongoBotMarshallerTest extends Specification {
     fileSet.add(new ConcreteFile("#1", "Pack1"))
     fileSet.add(new ConcreteFile("#2", "Pack2"))
 
-    and:
+    and: "a mocked bot"
     MongoBot bot = Mock(MongoBot)
     ObjectId id = new ObjectId()
     bot.id >> id
     bot.name >> "bot"
+    bot.lastChecked >> new Date()
+    bot.lastUpdated >> new Date()
     bot.fileSet >> fileSet
 
     when:
     def result = mongoBotMarshaller.marshall(bot, Format.FULL)
 
     then: "the returned map should contain the following elements"
-    result.size() == 4
+    result.size() == 6
     result.id == bot.id.toStringMongod()
     result.name == bot.name
     result.fileCount == 2
+    result.lastChecked
+    result.lastUpdated
     result.fileSet == fileSet
   }
 
@@ -43,15 +47,19 @@ class MongoBotMarshallerTest extends Specification {
     ObjectId id = new ObjectId()
     bot.id >> id
     bot.name >> "bot"
+    bot.lastChecked >> new Date()
+    bot.lastUpdated >> new Date()
     bot.fileSet >> []
 
     when:
     def result = mongoBotMarshaller.marshall(bot, Format.SHORT)
 
     then: "the returned map should contain the following elements"
-    result.size() == 3
+    result.size() == 5
     result.id == bot.id.toStringMongod()
     result.name == bot.name
     result.fileCount == 0
+    result.lastChecked
+    result.lastUpdated
   }
 }

@@ -7,6 +7,7 @@ import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Date;
 import java.util.List;
 
 public class MongoBotService {
@@ -67,6 +68,7 @@ public class MongoBotService {
    */
   public void insert(MongoBot mongoBot) {
     LOG.info("Inserting: {}", mongoBot.getName());
+    updateLastUpdatedTime(mongoBot);
     mongoBotCollection.insert(mongoBot);
   }
 
@@ -76,6 +78,7 @@ public class MongoBotService {
    */
   public void update(MongoBot mongoBot) {
     LOG.info("Updating: {}", mongoBot.getName());
+    updateLastUpdatedTime(mongoBot);
     mongoBotCollection.save(mongoBot);
   }
 
@@ -96,5 +99,9 @@ public class MongoBotService {
     return mongoBotCollection.find(
         "{name: {$in: #}}", botNameList
     ).projection("{fileSet: 0}").as(MongoBot.class);
+  }
+
+  private void updateLastUpdatedTime(MongoBot mongoBot) {
+    mongoBot.setLastUpdated(new Date());
   }
 }

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,8 @@ public class TaskerService {
     if (bot == null) {
       bot = new MongoBot(botName);
     }
+
+    bot.setLastChecked(new Date());
 
     if (!concreteFileSet.equals(bot.getFileSet())) {
       bot.setFileSet(concreteFileSet);

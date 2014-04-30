@@ -105,4 +105,23 @@ class TaskerServiceTest extends Specification {
     then: "no bot should be inserted in the database"
     0 * mongoBotService.insert(_ as MongoBot)
   }
+
+  def "lastChecked date is updated when a bot is being checked"() {
+    given: "a mocked File"
+    File file = new File("spock.txt")
+    parser.parse(file) >> [:]
+
+    and: "a mocked MongoBot for MongoBotService to return"
+    def botName = "bot"
+    def lastChecked = new Date()
+    Bot bot = Mock(MongoBot)
+    bot.lastChecked >> lastChecked
+    mongoBotService.findByName(botName) >> bot
+
+    when: "calling updateAvailableFiles"
+    taskerService.updateAvailableFiles(file, botName)
+
+    then:
+    1 * bot.setLastChecked(_ as Date)
+  }
 }

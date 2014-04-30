@@ -4,17 +4,19 @@ package fr.xdcc.pi.model;
 import com.google.common.collect.Sets;
 import org.bson.types.ObjectId;
 
+import java.util.Date;
 import java.util.LinkedHashSet;
 
 public class MongoBot implements Bot {
 
   public static final String COLLECTION_NAME = "mongobots";
 
-  // Only used by MongoDB as an auto-generated id
   @SuppressWarnings("UnusedDeclaration")
   private ObjectId _id;
   private String name;
   private LinkedHashSet<ConcreteFile> fileSet = Sets.newLinkedHashSet();
+  private Date lastChecked;
+  private Date lastUpdated;
 
   // Required to instanciate object with Jackson
   @SuppressWarnings("UnusedDeclaration")
@@ -40,9 +42,30 @@ public class MongoBot implements Bot {
   }
 
   @Override
+  public Date getLastChecked() {
+    return lastChecked;
+  }
+
+  @Override
+  public Date getLastUpdated() {
+    return lastUpdated;
+  }
+
+  @Override
   public void setFileSet(LinkedHashSet<ConcreteFile> newFileSet) {
     fileSet = newFileSet;
   }
+
+  @Override
+  public void setLastChecked(Date time) {
+    lastChecked = time;
+  }
+
+  @Override
+  public void setLastUpdated(Date time) {
+    lastUpdated = time;
+  }
+
 
   @Override
   public boolean equals(Object document) {
