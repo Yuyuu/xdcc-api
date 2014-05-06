@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 
 public class MongoBot implements Bot {
 
-  public static final String COLLECTION_NAME = "mongobots";
+  public static final String COLLECTION_NAME = "view_mongobot";
 
   @SuppressWarnings("UnusedDeclaration")
   private ObjectId _id;

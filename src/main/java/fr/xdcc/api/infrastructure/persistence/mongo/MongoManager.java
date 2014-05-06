@@ -27,7 +27,7 @@ public class MongoManager {
     private Singleton() {
       try {
         client = new MongoClient();
-        DB db = client.getDB("xdcc");
+        DB db = client.getDB("xdccapp");
         jongo = new Jongo(db);
       } catch (UnknownHostException e) {
         LOG.warn("Could not establish the connection to the database: {}", e.getMessage());

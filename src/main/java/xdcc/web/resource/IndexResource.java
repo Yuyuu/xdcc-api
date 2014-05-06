@@ -2,7 +2,7 @@ package xdcc.web.resource;
 
 import net.codestory.http.annotations.Get;
 
-public class HomeResource {
+public class IndexResource {
 
   @Get("/")
   public String get() {
