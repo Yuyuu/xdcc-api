@@ -3,6 +3,7 @@ package fr.xdcc.api.tasker.bot;
 import fr.xdcc.api.tasker.service.TaskerService;
 import org.jibble.pircbot.DccFileTransfer;
 import org.jibble.pircbot.PircBot;
+import org.jibble.pircbot.ReplyConstants;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,16 +59,20 @@ public class FileListUpdaterBot extends PircBot {
   @Override
   protected synchronized void onFileTransferFinished(DccFileTransfer dccFileTransfer, Exception e) {
     dccFileTransfer.close();
-    ++nbTasksAchieved;
     if (e != null) {
       LOG.debug("Transfer went wrong: {}", e.getMessage());
     } else {
       LOG.info("Transfer completed: [{}]", dccFileTransfer.getFile().getAbsolutePath());
       taskerService.updateAvailableFiles(dccFileTransfer.getFile(), dccFileTransfer.getNick());
     }
-    if (nbTasksAchieved == nbTasksToAchieve && isConnected()) {
-      disconnect();
-      dispose();
+    registerNewTaskAchieved();
+  }
+
+  @Override
+  protected synchronized void onServerResponse(int code, String response) {
+    if (code == ReplyConstants.ERR_NOSUCHNICK) {
+      LOG.debug("Failed contacting remote bot: {}", response);
+      registerNewTaskAchieved();
     }
   }
 
@@ -84,6 +89,7 @@ public class FileListUpdaterBot extends PircBot {
   @Override
   protected void onDisconnect() {
     LOG.debug("FileListUpdaterBot disconnected from server");
+    dispose();
   }
 
   private boolean isSenderLegit(DccFileTransfer dccFileTransfer) {
@@ -95,6 +101,14 @@ public class FileListUpdaterBot extends PircBot {
     }
 
     return false;
+  }
+
+  private void registerNewTaskAchieved() {
+    ++nbTasksAchieved;
+    if (nbTasksAchieved == nbTasksToAchieve) {
+      LOG.info("Bot finished all his tasks, be freed!.");
+      disconnect();
+    }
   }
 
   private void makeBaseDir() {

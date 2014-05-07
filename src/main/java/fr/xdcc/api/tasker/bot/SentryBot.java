@@ -48,10 +48,7 @@ public class SentryBot extends PircBot {
       LOG.debug("No bot sender found on {}", channel);
     }
 
-    if (isConnected()) {
-      disconnect();
-      dispose();
-    }
+    disconnect();
   }
 
   @Override
@@ -67,6 +64,7 @@ public class SentryBot extends PircBot {
   @Override
   protected void onDisconnect() {
     LOG.debug("SentryBot disconnected from server");
+    dispose();
   }
 
   private boolean isBotSender(User u) {
