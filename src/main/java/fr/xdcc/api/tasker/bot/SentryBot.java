@@ -63,7 +63,7 @@ public class SentryBot extends PircBot {
 
   @Override
   protected void onDisconnect() {
-    LOG.debug("SentryBot disconnected from server");
+    LOG.info("SentryBot disconnected from server");
     dispose();
   }
 

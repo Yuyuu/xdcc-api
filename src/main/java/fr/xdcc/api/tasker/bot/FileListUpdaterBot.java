@@ -88,7 +88,7 @@ public class FileListUpdaterBot extends PircBot {
 
   @Override
   protected void onDisconnect() {
-    LOG.debug("FileListUpdaterBot disconnected from server");
+    LOG.info("FileListUpdaterBot disconnected from server");
     dispose();
   }
 
@@ -106,7 +106,7 @@ public class FileListUpdaterBot extends PircBot {
   private void registerNewTaskAchieved() {
     ++nbTasksAchieved;
     if (nbTasksAchieved == nbTasksToAchieve) {
-      LOG.info("Bot finished all his tasks, be freed!.");
+      LOG.info("Bot finished all his tasks, be freed!");
       disconnect();
     }
   }
