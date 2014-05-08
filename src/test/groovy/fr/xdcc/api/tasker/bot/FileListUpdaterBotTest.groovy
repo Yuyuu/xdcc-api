@@ -2,6 +2,7 @@ package fr.xdcc.api.tasker.bot
 
 import fr.xdcc.api.tasker.service.TaskerService
 import org.jibble.pircbot.DccFileTransfer
+import org.jibble.pircbot.ReplyConstants
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyAccessibility")
@@ -67,6 +68,14 @@ class FileListUpdaterBotTest extends Specification {
 
     then: "updateAvailableFiles method of TaskerService should be called one time"
     0 * taskerService.updateAvailableFiles(dccFileTransfer.getFile(), dccFileTransfer.getNick())
+  }
+
+  def "increments its achieved tasks number when code ERR_NOSUCHNICK is received"() {
+    when: "mocking a server response with code ERR_NOSUCHNICK"
+    bot.onServerResponse(ReplyConstants.ERR_NOSUCHNICK, "Whatever the reason")
+
+    then: "the number of achieved tasks is incremented"
+    bot.nbTasksAchieved == 1
   }
 
   def "file is sent by an unauthorized entity"() {
