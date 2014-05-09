@@ -17,7 +17,7 @@ public class BotCheckerJob implements Job {
   @Override
   public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
     LOG.info("Starting job: BotCheckerJob");
-    SentryBot sentryBot = new SentryBot("pi-sentry");
+    SentryBot sentryBot = new SentryBot("api-sentry");
     // sentryBot.setVerbose(true);
 
     try {

@@ -7,5 +7,5 @@ out
 atlassian-ide-plugin.xml
 .gradle
 META-INF
-xdcc-pi.log
+xdcc-api.log
 lists

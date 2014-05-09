@@ -32,7 +32,7 @@ public class FileCheckerJob implements Job {
     long nbTasksToAchieve = remainingBotsToUpdate < OFFSET_INCREMENT ?
         remainingBotsToUpdate : OFFSET_INCREMENT;
 
-    FileListUpdaterBot fileListUpdaterBot = new FileListUpdaterBot("pi-updater", (int) nbTasksToAchieve);
+    FileListUpdaterBot fileListUpdaterBot = new FileListUpdaterBot("api-updater", (int) nbTasksToAchieve);
     // fileListUpdaterBot.setVerbose(true);
 
     try {
