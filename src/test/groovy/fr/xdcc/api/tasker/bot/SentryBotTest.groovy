@@ -11,9 +11,8 @@ class SentryBotTest extends Specification {
   TaskerService taskerService
 
   def setup() {
-    sentryBot = new SentryBot("Sentry")
     taskerService = Mock(TaskerService)
-    sentryBot.taskerService = taskerService
+    sentryBot = new SentryBot(taskerService)
   }
 
   def "parses the senders properly"() {

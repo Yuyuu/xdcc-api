@@ -1,15 +1,16 @@
 package fr.xdcc.api.tasker.service;
 
 import com.google.common.collect.Sets;
-import fr.xdcc.api.model.Bot;
-import fr.xdcc.api.model.MongoBot;
-import fr.xdcc.api.model.ConcreteFile;
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService;
+import fr.xdcc.api.model.Bot;
+import fr.xdcc.api.model.ConcreteFile;
+import fr.xdcc.api.model.MongoBot;
 import fr.xdcc.api.tasker.parser.Parser;
 import fr.xdcc.api.tasker.parser.XdccListFileParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -19,10 +20,10 @@ import java.util.stream.Collectors;
 
 public class TaskerService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(TaskerService.class);
-
-  private MongoBotService mongoBotService = new MongoBotService();
-  private Parser parser = new XdccListFileParser();
+  @Inject
+  public TaskerService(MongoBotService mongoBotService) {
+    this.mongoBotService = mongoBotService;
+  }
 
   /**
    * Updates the list of available files of a bot if it was changed
@@ -66,4 +67,8 @@ public class TaskerService {
 
     botToUpdateList.stream().forEach(mongoBotService::insert);
   }
+
+  private MongoBotService mongoBotService;
+  private Parser parser = new XdccListFileParser();
+  private static final Logger LOG = LoggerFactory.getLogger(TaskerService.class);
 }

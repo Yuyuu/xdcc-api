@@ -18,17 +18,11 @@ import java.util.stream.Collectors;
  */
 public class SentryBot extends PircBot {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SentryBot.class);
-
-  private TaskerService taskerService;
-
-  private String[] senderBotTags;
-
-  public SentryBot(String name) {
-    setName(name);
-    setLogin(name);
+  public SentryBot(TaskerService taskerService) {
+    setName("api-sentry");
+    setLogin("api-sentry");
     setAutoNickChange(true);
-    taskerService = new TaskerService();
+    this.taskerService = taskerService;
     Properties properties = new fr.xdcc.api.tasker.bot.Properties().load();
     senderBotTags = properties.getProperty("xdcc.sender-tag").split(",");
   }
@@ -76,4 +70,8 @@ public class SentryBot extends PircBot {
 
     return false;
   }
+
+  private TaskerService taskerService;
+  private String[] senderBotTags;
+  private static final Logger LOG = LoggerFactory.getLogger(SentryBot.class);
 }

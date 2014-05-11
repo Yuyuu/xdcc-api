@@ -3,21 +3,20 @@ package fr.xdcc.api.infrastructure.persistence.mongo;
 import fr.xdcc.api.model.MongoBot;
 import fr.xdcc.api.model.MissingMongoBotException;
 import org.bson.types.ObjectId;
+import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
 public class MongoBotService {
 
-  private static final Logger LOG = LoggerFactory.getLogger(MongoBotService.class);
-
-  private MongoCollection mongoBotCollection;
-
-  public MongoBotService() {
-    mongoBotCollection = MongoManager.getCollection(MongoBot.COLLECTION_NAME);
+  @Inject
+  public MongoBotService(Jongo jongo) {
+    mongoBotCollection = jongo.getCollection(MongoBot.COLLECTION_NAME);
   }
 
   /**
@@ -91,7 +90,7 @@ public class MongoBotService {
   }
 
   /**
-   * Returns the names of the MongoBots whose name is contained in the given list
+   * Returns the MongoBots whose name is contained in the given list
    * @param botNameList a list of MongoBots name
    * @return an Iterable of the Mongobots whose name is contained in the given list
    */
@@ -104,4 +103,7 @@ public class MongoBotService {
   private void updateLastUpdatedTime(MongoBot mongoBot) {
     mongoBot.setLastUpdated(new Date());
   }
+
+  private MongoCollection mongoBotCollection;
+  private final static Logger LOG = LoggerFactory.getLogger(MongoBotService.class);
 }

@@ -3,11 +3,13 @@ package fr.xdcc.api.tasker.scheduler;
 import fr.xdcc.api.model.MongoBot;
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService;
 import fr.xdcc.api.tasker.bot.FileListUpdaterBot;
+import fr.xdcc.api.tasker.service.TaskerService;
 import org.jibble.pircbot.IrcException;
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 // The setters are required for the injection of the job parameters
@@ -15,26 +17,25 @@ import java.io.IOException;
 @PersistJobDataAfterExecution
 public class FileCheckerJob implements Job {
 
-  private static final Logger LOG = LoggerFactory.getLogger(FileCheckerJob.class);
-  private static final int OFFSET_INCREMENT = 5;
+  @Inject
+  public FileCheckerJob(TaskerService taskerService, MongoBotService mongoBotService) {
+    this.taskerService = taskerService;
+    this.mongoBotService = mongoBotService;
+  }
 
-  private int max;
-  private int offset;
-
-  // I think this is legit in this case as we're waiting for the bot to be fully connected
   @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
   @Override
   public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-    LOG.info("Starting job: FileCheckerJob");
-    MongoBotService mongoBotService = new MongoBotService();
+    extractJobDataFromContext(jobExecutionContext);
     long mongoBotsCount = mongoBotService.count();
     long remainingBotsToUpdate = mongoBotsCount - offset;
     long nbTasksToAchieve = remainingBotsToUpdate < OFFSET_INCREMENT ?
         remainingBotsToUpdate : OFFSET_INCREMENT;
 
-    FileListUpdaterBot fileListUpdaterBot = new FileListUpdaterBot("api-updater", (int) nbTasksToAchieve);
+    FileListUpdaterBot fileListUpdaterBot = new FileListUpdaterBot(taskerService, (int) nbTasksToAchieve);
     // fileListUpdaterBot.setVerbose(true);
 
+    LOG.info("Starting job: FileCheckerJob");
     try {
       fileListUpdaterBot.connect("irc.otaku-irc.fr");
       fileListUpdaterBot.joinChannel("#serial_us");
@@ -55,11 +56,15 @@ public class FileCheckerJob implements Job {
     LOG.info("End of job: FileCheckerJob");
   }
 
-  public void setMax(int max) {
-    this.max = max;
+  private void extractJobDataFromContext(JobExecutionContext jobExecutionContext) {
+    max = jobExecutionContext.getJobDetail().getJobDataMap().getIntValue("max");
+    offset = jobExecutionContext.getJobDetail().getJobDataMap().getIntValue("offset");
   }
 
-  public void setOffset(int offset) {
-    this.offset = offset;
-  }
+  private final TaskerService taskerService;
+  private final MongoBotService mongoBotService;
+  private int max;
+  private int offset;
+  private static final int OFFSET_INCREMENT = 5;
+  private static final Logger LOG = LoggerFactory.getLogger(FileCheckerJob.class);
 }

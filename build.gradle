@@ -12,8 +12,18 @@ repositories {
 
 compileJava.options.encoding = 'UTF-8'
 
+project.ext.with {
+  set "guiceVersion", "4.0-beta4"
+}
+test {
+  testLogging {
+    exceptionFormat = 'full'
+  }
+}
+
 dependencies {
   compile 'com.google.guava:guava:16.0.1'
+  compile "com.google.inject:guice:$guiceVersion"
 
   compile ('net.code-story:http:1.50') {
     exclude module: 'slf4j-simple'
