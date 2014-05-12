@@ -59,7 +59,6 @@ public class TaskerService {
    * @param botNameList the list of bot names that should be in the database
    */
   public void updateAvailableBots(List<String> botNameList) {
-    // TODO : Improve
     Iterable<MongoBot> savedBotList = mongoBotService.getBotsIn(botNameList);
     savedBotList.forEach(bot -> botNameList.remove(bot.getName()));
 

@@ -26,7 +26,6 @@ public class FileCheckerJob implements Job {
   @SuppressWarnings("SynchronizationOnLocalVariableOrMethodParameter")
   @Override
   public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-    extractJobDataFromContext(jobExecutionContext);
     long mongoBotsCount = mongoBotService.count();
     long remainingBotsToUpdate = mongoBotsCount - offset;
     long nbTasksToAchieve = remainingBotsToUpdate < OFFSET_INCREMENT ?
@@ -56,9 +55,12 @@ public class FileCheckerJob implements Job {
     LOG.info("End of job: FileCheckerJob");
   }
 
-  private void extractJobDataFromContext(JobExecutionContext jobExecutionContext) {
-    max = jobExecutionContext.getJobDetail().getJobDataMap().getIntValue("max");
-    offset = jobExecutionContext.getJobDetail().getJobDataMap().getIntValue("offset");
+  public void setMax(int max) {
+    this.max = max;
+  }
+
+  public void setOffset(int offset) {
+    this.offset = offset;
   }
 
   private final TaskerService taskerService;

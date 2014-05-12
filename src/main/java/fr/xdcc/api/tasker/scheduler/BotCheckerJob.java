@@ -21,10 +21,10 @@ public class BotCheckerJob implements Job {
 
   @Override
   public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-    LOG.info("Starting job: BotCheckerJob");
     SentryBot sentryBot = new SentryBot(taskerService);
     // sentryBot.setVerbose(true);
 
+    LOG.info("Starting job: BotCheckerJob");
     try {
       sentryBot.connect("irc.otaku-irc.fr");
       sentryBot.joinChannel("#serial_us");

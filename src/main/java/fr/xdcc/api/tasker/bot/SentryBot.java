@@ -1,12 +1,12 @@
 package fr.xdcc.api.tasker.bot;
 
+import com.google.common.collect.Lists;
 import fr.xdcc.api.tasker.service.TaskerService;
 import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -31,7 +31,7 @@ public class SentryBot extends PircBot {
   protected void onUserList(String channel, User[] users) {
     assert channel.equals("#serial_us");
 
-    List<User> userList = Arrays.asList(users);
+    List<User> userList = Lists.newArrayList(users);
     List<String> senderBotNameList = userList.parallelStream().filter(this::isBotSender).map(
         user -> user.getNick().substring(1)
     ).collect(Collectors.toList());
