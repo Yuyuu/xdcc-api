@@ -9,13 +9,16 @@ import xdcc.web.marshaller.MongoBotMarshaller;
 import xdcc.web.resource.AbstractResource;
 import net.codestory.http.annotations.Get;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
 public class MongoBotResource extends AbstractResource {
 
-  private MongoBotService mongoBotService = new MongoBotService();
-  private Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
+  @Inject
+  public MongoBotResource(MongoBotService mongoBotService) {
+    this.mongoBotService = mongoBotService;
+  }
 
   @Get("/bot")
   public List<Map<String, Object>> list() {
@@ -32,4 +35,7 @@ public class MongoBotResource extends AbstractResource {
     MongoBot mongoBot = mongoBotService.get(parseObjectId(id));
     return mongoBotMarshaller.marshall(mongoBot, Format.FULL);
   }
+
+  private final MongoBotService mongoBotService;
+  private Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
 }

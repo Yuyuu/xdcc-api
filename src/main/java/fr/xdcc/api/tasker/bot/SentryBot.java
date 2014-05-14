@@ -1,12 +1,12 @@
 package fr.xdcc.api.tasker.bot;
 
+import com.google.common.collect.Lists;
 import fr.xdcc.api.tasker.service.TaskerService;
 import org.jibble.pircbot.PircBot;
 import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -18,17 +18,11 @@ import java.util.stream.Collectors;
  */
 public class SentryBot extends PircBot {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SentryBot.class);
-
-  private TaskerService taskerService;
-
-  private String[] senderBotTags;
-
-  public SentryBot(String name) {
-    setName(name);
-    setLogin(name);
+  public SentryBot(TaskerService taskerService) {
+    setName("api-sentry");
+    setLogin("api-sentry");
     setAutoNickChange(true);
-    taskerService = new TaskerService();
+    this.taskerService = taskerService;
     Properties properties = new fr.xdcc.api.tasker.bot.Properties().load();
     senderBotTags = properties.getProperty("xdcc.sender-tag").split(",");
   }
@@ -37,7 +31,7 @@ public class SentryBot extends PircBot {
   protected void onUserList(String channel, User[] users) {
     assert channel.equals("#serial_us");
 
-    List<User> userList = Arrays.asList(users);
+    List<User> userList = Lists.newArrayList(users);
     List<String> senderBotNameList = userList.parallelStream().filter(this::isBotSender).map(
         user -> user.getNick().substring(1)
     ).collect(Collectors.toList());
@@ -76,4 +70,8 @@ public class SentryBot extends PircBot {
 
     return false;
   }
+
+  private TaskerService taskerService;
+  private String[] senderBotTags;
+  private static final Logger LOG = LoggerFactory.getLogger(SentryBot.class);
 }

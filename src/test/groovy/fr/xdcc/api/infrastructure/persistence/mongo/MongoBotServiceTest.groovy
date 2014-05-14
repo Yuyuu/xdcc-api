@@ -37,7 +37,7 @@ class MongoBotServiceTest extends Specification {
 
     mongoCollection.insert(mongoBot1, mongoBot2, mongoBot3, mongoBot4, mongoBot5)
 
-    mongoBotService = new MongoBotService()
+    mongoBotService = new MongoBotService(jongo)
     mongoBotService.mongoBotCollection = mongoCollection
   }
 

@@ -17,22 +17,12 @@ import java.io.File;
  */
 public class FileListUpdaterBot extends PircBot {
 
-  private static final Logger LOG = LoggerFactory.getLogger(FileListUpdaterBot.class);
-  private static final String BASE_DIRECTORY = "lists" + File.separator;
-
-  private TaskerService taskerService;
-
-  private int nbTasksToAchieve;
-  private int nbTasksAchieved;
-  private String[] legitSenderTagList;
-
-  public FileListUpdaterBot(String name, int nbTasksToAchieve) {
-    setName(name);
-    setLogin(name);
+  public FileListUpdaterBot(TaskerService taskerService, int nbTasksToAchieve) {
+    setName("api-updater");
+    setLogin("api-updater");
     setAutoNickChange(true);
     this.nbTasksToAchieve = nbTasksToAchieve;
-    nbTasksAchieved = 0;
-    taskerService = new TaskerService();
+    this.taskerService = taskerService;
     legitSenderTagList = new Properties().load().getProperty("xdcc.allowed-senders").split(",");
 
     makeBaseDir();
@@ -118,4 +108,11 @@ public class FileListUpdaterBot extends PircBot {
       System.exit(1);
     }
   }
+
+  private TaskerService taskerService;
+  private int nbTasksToAchieve;
+  private int nbTasksAchieved = 0;
+  private String[] legitSenderTagList;
+  private static final Logger LOG = LoggerFactory.getLogger(FileListUpdaterBot.class);
+  private static final String BASE_DIRECTORY = "lists" + File.separator;
 }

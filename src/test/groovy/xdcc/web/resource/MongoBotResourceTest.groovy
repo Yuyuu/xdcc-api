@@ -16,11 +16,10 @@ class MongoBotResourceTest extends Specification {
   Marshaller<MongoBot> mongoBotMarshaller
 
   def setup() {
-    mongoBotResource = new MongoBotResource()
     mongoBotService = Mock(MongoBotService)
     mongoBotMarshaller = Mock(Marshaller)
+    mongoBotResource = new MongoBotResource(mongoBotService)
 
-    mongoBotResource.mongoBotService = mongoBotService
     mongoBotResource.mongoBotMarshaller = mongoBotMarshaller
   }
 
