@@ -80,8 +80,8 @@ public class XdccApplication extends BaseApplication {
         .build();
     Trigger fileTrigger = newTrigger()
         .withIdentity("FileJobTrigger", "CheckerGroup")
-        .startAt(futureDate(1, DateBuilder.IntervalUnit.MINUTE))
-        .withSchedule(simpleSchedule().withIntervalInMinutes(1).repeatForever())
+        .startAt(futureDate(20, DateBuilder.IntervalUnit.MINUTE))
+        .withSchedule(simpleSchedule().withIntervalInMinutes(20).repeatForever())
         .build();
 
     scheduler.scheduleJob(fileJob, fileTrigger);
