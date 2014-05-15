@@ -10,11 +10,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class LogRequestFilter implements Filter {
-  private static final Logger LOG = LoggerFactory.getLogger(LogRequestFilter.class);
 
   @Override
   public Payload apply(String uri, Context context, PayloadSupplier nextFilter) throws IOException {
     LOG.info("{} => {}", context.getClientAddress(), uri);
     return nextFilter.get();
   }
+
+  private final static Logger LOG = LoggerFactory.getLogger(LogRequestFilter.class);
 }

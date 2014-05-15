@@ -4,7 +4,7 @@ import org.bson.types.ObjectId;
 
 public abstract class AbstractResource {
 
-  public ObjectId parseObjectId(String id) {
+  protected ObjectId parseObjectId(String id) {
     if (!ObjectId.isValid(id)) {
       throw new InvalidObjectIdException(id);
     }
