@@ -1,18 +1,19 @@
 package fr.xdcc.api.infrastructure.persistence.mongo
 
-import com.github.fakemongo.Fongo
 import com.google.common.collect.Lists
-import com.mongodb.DB
 import fr.xdcc.api.model.ConcreteFile
 import fr.xdcc.api.model.MissingMongoBotException
 import fr.xdcc.api.model.MongoBot
 import org.bson.types.ObjectId
-import org.jongo.Jongo
 import org.jongo.MongoCollection
+import org.junit.Rule
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyAccessibility")
 class MongoBotServiceTest extends Specification {
+
+  @Rule
+  WithJongo withJongo
 
   MongoBotService mongoBotService
   MongoCollection mongoCollection
@@ -24,10 +25,7 @@ class MongoBotServiceTest extends Specification {
   MongoBot mongoBot5
 
   def setup() {
-    Fongo fongo = new Fongo("mongo server 1")
-    DB db = fongo.getDB("xdcc-test")
-    Jongo jongo = new Jongo(db)
-    mongoCollection = jongo.getCollection("mongobots")
+    mongoCollection = withJongo.collection("mongobots")
 
     mongoBot1 = new MongoBot("bot 1")
     mongoBot2 = new MongoBot("bot 2")
@@ -37,7 +35,7 @@ class MongoBotServiceTest extends Specification {
 
     mongoCollection.insert(mongoBot1, mongoBot2, mongoBot3, mongoBot4, mongoBot5)
 
-    mongoBotService = new MongoBotService(jongo)
+    mongoBotService = new MongoBotService(withJongo.jongo())
     mongoBotService.mongoBotCollection = mongoCollection
   }
 
