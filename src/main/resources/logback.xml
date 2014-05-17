@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="DEFAULT-FILE" class="ch.qos.logback.core.FileAppender">
         <file>xdcc-api.log</file>
         <append>false</append>
         <encoder>
@@ -13,7 +13,7 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <appender name="ACCESS-FILE" class="ch.qos.logback.core.FileAppender">
         <file>access.log</file>
         <append>false</append>
         <encoder>
@@ -22,12 +22,12 @@
     </appender>
 
     <root level="WARN">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEFAULT-FILE"/>
     </root>
     <logger name="fr.xdcc" additivity="false" level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="DEFAULT-FILE"/>
     </logger>
     <logger name="xdcc.web" additivity="false" level="INFO">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ACCESS-FILE"/>
     </logger>
 </configuration>
