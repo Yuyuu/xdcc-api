@@ -2,6 +2,8 @@ package xdcc.web.resource
 
 import fr.xdcc.api.model.MongoBot
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService
+import net.codestory.http.internal.Context
+import org.simpleframework.http.Request
 import xdcc.web.marshaller.Format
 import xdcc.web.marshaller.Marshaller
 import xdcc.web.resource.bot.MongoBotResource
@@ -15,12 +17,19 @@ class MongoBotResourceTest extends Specification {
   MongoBotService mongoBotService
   Marshaller<MongoBot> mongoBotMarshaller
 
+  Context context
+
   def setup() {
     mongoBotService = Mock(MongoBotService)
     mongoBotMarshaller = Mock(Marshaller)
     mongoBotResource = new MongoBotResource(mongoBotService)
 
     mongoBotResource.mongoBotMarshaller = mongoBotMarshaller
+
+    Request req = Mock(Request)
+    req.getParameter(_ as String) >> null
+    context = Mock(Context)
+    context.request() >> req
   }
 
   def "list"() {
@@ -39,7 +48,7 @@ class MongoBotResourceTest extends Specification {
     mongoBotMarshaller.marshall(bot2, Format.SHORT) >> marshallBot(bot2)
 
     when: "list method is called"
-    def result = mongoBotResource.list()
+    def result = mongoBotResource.list(context)
 
     then: "the returned list should contain the marshalled bots"
     result == [marshallBot(bot1), marshallBot(bot2)]
@@ -57,7 +66,7 @@ class MongoBotResourceTest extends Specification {
     mongoBotMarshaller.marshall(bot, Format.FULL) >> marshallBot(bot)
 
     when: "show method is called"
-    def result = mongoBotResource.show(id.toStringMongod())
+    def result = mongoBotResource.show(id.toStringMongod(), context)
 
     then: "the returned map should contain the marshalled bot"
     result == marshallBot(bot)

@@ -45,7 +45,7 @@ public class XdccListFileParser implements Parser {
           line -> line.trim().startsWith("#")
       ).forEach(this::extractPackEntry);
     } catch (IOException e) {
-      e.printStackTrace();
+      LOG.debug("Exception in method parse: {}", e.getMessage());
     }
 
     return packMap;

@@ -6,6 +6,7 @@ out
 *.iml
 atlassian-ide-plugin.xml
 .gradle
-META-INF
+
 xdcc-api.log
+access.log
 lists

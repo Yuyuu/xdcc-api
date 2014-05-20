@@ -137,7 +137,6 @@ class MongoBotServiceTest extends Specification {
     then: "the bot should have been updated in the database"
     result == mongoBot
     result.fileSet.size() == 3
-    result.lastUpdated
   }
 
   def "count"() {

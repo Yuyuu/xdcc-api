@@ -17,7 +17,7 @@ public class MongoBotMarshaller implements Marshaller<MongoBot> {
         return marshallFull(entity);
 
       default:
-        throw new IllegalStateException("Format " + format + " is not suported by this marshaller");
+        throw new IllegalStateException("Format " + format + " is not supported by this marshaller");
     }
   }
 

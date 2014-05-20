@@ -38,8 +38,9 @@ class TaskerServiceTest extends Specification {
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)
 
-    then: "the set of files of the bot should be overriden"
+    then: "the set of files and lastUpdated sate of the bot should be overridden"
     1 * bot.setFileSet(_ as LinkedHashSet)
+    1 * bot.setLastUpdated(_ as Date)
 
     then: "the bot should be updated in the database"
     1 * mongoBotService.update(bot)
@@ -61,7 +62,6 @@ class TaskerServiceTest extends Specification {
 
     then: "the bot should be be updated"
     0 * bot.setFileSet(_ as LinkedHashSet)
-    0 * mongoBotService.update(bot)
   }
 
   def "newly added bots are properly inserted in the database"() {

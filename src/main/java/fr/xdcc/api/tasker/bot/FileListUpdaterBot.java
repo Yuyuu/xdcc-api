@@ -33,7 +33,7 @@ public class FileListUpdaterBot extends PircBot {
     if (isSenderLegit(dccFileTransfer)) {
       File file = new File(BASE_DIRECTORY + dccFileTransfer.getFile().getName() + ".txt");
       dccFileTransfer.receive(file, false);
-      LOG.info("Accepted file [{}] from {}", file.getAbsolutePath(), dccFileTransfer.getNick());
+      LOG.info("Accepted file {} from {}", file.getName(), dccFileTransfer.getNick());
     } else {
       LOG.info("Rejected file from: {}", dccFileTransfer.getNick());
       dccFileTransfer.close();
@@ -52,7 +52,7 @@ public class FileListUpdaterBot extends PircBot {
     if (e != null) {
       LOG.debug("Transfer went wrong: {}", e.getMessage());
     } else {
-      LOG.info("Transfer completed: [{}]", dccFileTransfer.getFile().getAbsolutePath());
+      LOG.info("Transfer completed: {}", dccFileTransfer.getFile().getAbsolutePath());
       taskerService.updateAvailableFiles(dccFileTransfer.getFile(), dccFileTransfer.getNick());
     }
     registerNewTaskAchieved();
@@ -68,7 +68,7 @@ public class FileListUpdaterBot extends PircBot {
 
   @Override
   protected void onPrivateMessage(String senderNick, String login, String hostname, String message) {
-    LOG.info("Message from <{}>: [{}]", senderNick, message);
+    LOG.info("Message from <{}>: {}", senderNick, message);
   }
 
   @Override

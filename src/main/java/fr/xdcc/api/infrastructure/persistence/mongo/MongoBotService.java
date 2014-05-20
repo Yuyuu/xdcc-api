@@ -77,7 +77,6 @@ public class MongoBotService {
    */
   public void update(MongoBot mongoBot) {
     LOG.info("Updating: {}", mongoBot.getName());
-    updateLastUpdatedTime(mongoBot);
     mongoBotCollection.save(mongoBot);
   }
 

@@ -44,14 +44,15 @@ public class TaskerService {
       bot = new MongoBot(botName);
     }
 
-    bot.setLastChecked(new Date());
-
     if (!concreteFileSet.equals(bot.getFileSet())) {
       bot.setFileSet(concreteFileSet);
-      mongoBotService.update((MongoBot) bot);
+      bot.setLastUpdated(new Date());
     } else {
       LOG.info("Files of bot {} remain unchanged", bot.getName());
     }
+
+    bot.setLastChecked(new Date());
+    mongoBotService.update((MongoBot) bot);
   }
 
   /**

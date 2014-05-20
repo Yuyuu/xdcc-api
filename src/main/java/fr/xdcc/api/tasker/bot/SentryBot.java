@@ -47,7 +47,7 @@ public class SentryBot extends PircBot {
 
   @Override
   protected void onPrivateMessage(String senderNick, String login, String hostname, String message) {
-    LOG.info("Message from <{}>: [{}]", senderNick, message);
+    LOG.info("Message from <{}>: {}", senderNick, message);
   }
 
   @Override
