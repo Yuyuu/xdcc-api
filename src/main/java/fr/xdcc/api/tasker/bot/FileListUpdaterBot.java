@@ -96,7 +96,7 @@ public class FileListUpdaterBot extends PircBot {
   private void registerNewTaskAchieved() {
     ++nbTasksAchieved;
     if (nbTasksAchieved == nbTasksToAchieve) {
-      LOG.info("Bot finished all his tasks, be freed!");
+      LOG.info("Bot finished all his {} tasks, be freed!", nbTasksToAchieve);
       disconnect();
     }
   }

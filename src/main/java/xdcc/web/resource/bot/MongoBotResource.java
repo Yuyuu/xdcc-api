@@ -51,10 +51,6 @@ public class MongoBotResource extends AbstractResource {
     return context.request().getParameter("format");
   }
 
-  private void addAccessControlHeader(Context context) {
-    context.response().addValue("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com/");
-  }
-
   private final MongoBotService mongoBotService;
   private Marshaller<MongoBot> mongoBotMarshaller = new MongoBotMarshaller();
 }
