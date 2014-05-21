@@ -31,6 +31,8 @@ public class MongoBotResource extends AbstractResource {
     mongoBots.forEach( bot ->
         botRepresentationList.add(mongoBotMarshaller.marshall(bot, format))
     );
+
+    addAccessControlHeader(context);
     return botRepresentationList;
   }
 
@@ -39,12 +41,18 @@ public class MongoBotResource extends AbstractResource {
     String formatParameter = getFormatParameterFromRequest(context);
     Format format = (formatParameter != null) ? Format.parseValue(formatParameter) : Format.FULL;
 
+    addAccessControlHeader(context);
+
     MongoBot mongoBot = mongoBotService.get(parseObjectId(id));
     return mongoBotMarshaller.marshall(mongoBot, format);
   }
 
   private String getFormatParameterFromRequest(Context context) {
     return context.request().getParameter("format");
+  }
+
+  private void addAccessControlHeader(Context context) {
+    context.response().addValue("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com/");
   }
 
   private final MongoBotService mongoBotService;

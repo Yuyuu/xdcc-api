@@ -4,6 +4,7 @@ import fr.xdcc.api.model.MongoBot
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService
 import net.codestory.http.internal.Context
 import org.simpleframework.http.Request
+import org.simpleframework.http.Response
 import xdcc.web.marshaller.Format
 import xdcc.web.marshaller.Marshaller
 import xdcc.web.resource.bot.MongoBotResource
@@ -26,10 +27,12 @@ class MongoBotResourceTest extends Specification {
 
     mongoBotResource.mongoBotMarshaller = mongoBotMarshaller
 
-    Request req = Mock(Request)
-    req.getParameter(_ as String) >> null
+    Request request = Mock(Request)
+    request.getParameter(_ as String) >> null
+    Response response = Mock(Response)
     context = Mock(Context)
-    context.request() >> req
+    context.request() >> request
+    context.response() >> response
   }
 
   def "list"() {
@@ -70,6 +73,24 @@ class MongoBotResourceTest extends Specification {
 
     then: "the returned map should contain the marshalled bot"
     result == marshallBot(bot)
+  }
+
+  def "access control header should be added in every response"() {
+    given:
+    mongoBotService.list() >> []
+    ObjectId id = new ObjectId()
+
+    when: "list method is called"
+    mongoBotResource.list(context)
+
+    then: "Access-Control-Allow-Origin header should be added"
+    1 * context.response().addValue("Access-Control-Allow-Origin", _ as String)
+
+    when: "show method is called"
+    mongoBotResource.show(id.toStringMongod(), context)
+
+    then: "Access-Control-Allow-Origin header should be added"
+    1 * context.response().addValue("Access-Control-Allow-Origin", _ as String)
   }
 
   private static Map marshallBot(MongoBot bot) {
