@@ -1,6 +1,6 @@
 package xdcc.web.resource;
 
-import net.codestory.http.internal.Context;
+import net.codestory.http.Context;
 import org.bson.types.ObjectId;
 
 public abstract class AbstractResource {
@@ -14,6 +14,6 @@ public abstract class AbstractResource {
   }
 
   protected void addAccessControlHeader(Context context) {
-    context.response().addValue("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com");
+    context.response().setValue("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com");
   }
 }

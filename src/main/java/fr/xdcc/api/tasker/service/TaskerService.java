@@ -47,6 +47,7 @@ public class TaskerService {
     if (!concreteFileSet.equals(bot.getFileSet())) {
       bot.setFileSet(concreteFileSet);
       bot.setLastUpdated(new Date());
+      LOG.info("Bot {} got new files", bot.getName());
     } else {
       LOG.info("Files of bot {} remain unchanged", bot.getName());
     }

@@ -1,8 +1,8 @@
 package xdcc.web.filter;
 
+import net.codestory.http.Context;
 import net.codestory.http.filters.Filter;
 import net.codestory.http.filters.PayloadSupplier;
-import net.codestory.http.internal.Context;
 import net.codestory.http.payload.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class LogRequestFilter implements Filter {
 
   @Override
   public Payload apply(String uri, Context context, PayloadSupplier nextFilter) throws IOException {
-    LOG.info("{} => {}", context.getClientAddress(), uri);
+    LOG.info("{} => {}", context.clientAddress(), uri);
     return nextFilter.get();
   }
 
