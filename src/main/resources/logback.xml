@@ -22,12 +22,12 @@
     </appender>
 
     <root level="WARN">
-        <appender-ref ref="DEFAULT-FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
     <logger name="fr.xdcc" additivity="false" level="INFO">
-        <appender-ref ref="DEFAULT-FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="xdcc.web" additivity="false" level="INFO">
-        <appender-ref ref="ACCESS-FILE"/>
+        <appender-ref ref="STDOUT"/>
     </logger>
 </configuration>
