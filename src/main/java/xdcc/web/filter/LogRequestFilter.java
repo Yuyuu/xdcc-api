@@ -12,8 +12,8 @@ import java.io.IOException;
 public class LogRequestFilter implements Filter {
 
   @Override
-  public Payload apply(String uri, Context context, PayloadSupplier nextFilter) throws IOException {
-    LOG.info("{} => {}", context.clientAddress(), uri);
+  public Payload apply(String uri, Context context, PayloadSupplier nextFilter) throws Exception {
+    LOG.info("{} => {}", context.request().clientAddress(), uri);
     return nextFilter.get();
   }
 

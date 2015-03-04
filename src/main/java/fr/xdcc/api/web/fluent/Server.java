@@ -6,7 +6,7 @@ public class Server {
 
   public Server(BaseApplication application) {
     this.application = application;
-    webServer = new WebServer(application.routes());
+    webServer = new WebServer().configure(application.routes());
   }
 
   public void start(int port) throws Exception {

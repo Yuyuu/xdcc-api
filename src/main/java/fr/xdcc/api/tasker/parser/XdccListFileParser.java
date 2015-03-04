@@ -58,7 +58,8 @@ public class XdccListFileParser implements Parser {
     try {
       matcher.reset(splitPart[0]);
       if (matcher.find()) {
-        packMap.put(matcher.group(), splitPart[1]);
+        // Remove #
+        packMap.put(matcher.group().substring(1), splitPart[1]);
       } else {
         LOG.debug("No packId match for line: [{}]", packLine);
       }

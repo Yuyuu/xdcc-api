@@ -80,13 +80,13 @@ class MongoBotResourceTest extends Specification {
     mongoBotResource.list(context)
 
     then: "Access-Control-Allow-Origin header should be added"
-    1 * context.response().setValue("Access-Control-Allow-Origin", _ as String)
+    1 * context.response().setHeader("Access-Control-Allow-Origin", _ as String)
 
     when: "show method is called"
     mongoBotResource.show(id.toStringMongod(), context)
 
     then: "Access-Control-Allow-Origin header should be added"
-    1 * context.response().setValue("Access-Control-Allow-Origin", _ as String)
+    1 * context.response().setHeader("Access-Control-Allow-Origin", _ as String)
   }
 
   private static Map marshallBot(MongoBot bot) {

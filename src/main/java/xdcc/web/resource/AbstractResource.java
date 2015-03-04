@@ -14,6 +14,6 @@ public abstract class AbstractResource {
   }
 
   protected void addAccessControlHeader(Context context) {
-    context.response().setValue("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com");
+    context.response().setHeader("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com");
   }
 }
