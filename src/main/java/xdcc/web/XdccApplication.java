@@ -1,5 +1,6 @@
 package xdcc.web;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
@@ -12,11 +13,13 @@ import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.spi.JobFactory;
 import xdcc.web.configuration.GuiceConfiguration;
+import xdcc.web.filter.AuthenticationFilter;
 import xdcc.web.filter.LogRequestFilter;
 import xdcc.web.resource.IndexResource;
 import xdcc.web.resource.bot.MongoBotResource;
 import xdcc.web.resource.login.AuthenticationResource;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.quartz.DateBuilder.futureDate;
@@ -41,9 +44,13 @@ public class XdccApplication extends BaseApplication {
 
   @Override
   protected Configuration routes() {
+    List<String> protectedRoutes = Lists.newLinkedList();
+    protectedRoutes.add("/bot");
+
     return routes -> routes
         .setIocAdapter(new GuiceAdapter(injector))
         .filter(LogRequestFilter.class)
+        .filter(new AuthenticationFilter(protectedRoutes, "xdcc-api"))
         .add(IndexResource.class)
         .add(AuthenticationResource.class)
         .add(MongoBotResource.class);
