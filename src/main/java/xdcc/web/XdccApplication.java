@@ -15,6 +15,7 @@ import xdcc.web.configuration.GuiceConfiguration;
 import xdcc.web.filter.LogRequestFilter;
 import xdcc.web.resource.IndexResource;
 import xdcc.web.resource.bot.MongoBotResource;
+import xdcc.web.resource.login.AuthenticationResource;
 
 import java.util.Optional;
 
@@ -44,6 +45,7 @@ public class XdccApplication extends BaseApplication {
         .setIocAdapter(new GuiceAdapter(injector))
         .filter(LogRequestFilter.class)
         .add(IndexResource.class)
+        .add(AuthenticationResource.class)
         .add(MongoBotResource.class);
   }
 
