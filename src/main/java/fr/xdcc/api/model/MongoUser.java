@@ -18,6 +18,10 @@ public class MongoUser {
   @SuppressWarnings("UnusedDeclaration")
   private MongoUser() {}
 
+  public ObjectId getId() {
+    return _id;
+  }
+
   public String getLogin() {
     return login;
   }

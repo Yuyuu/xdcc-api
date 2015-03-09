@@ -20,7 +20,7 @@ public class AuthenticationFilter implements Filter {
   @Override
   public boolean matches(String uri, Context context) {
     for (String uriPrefix : uriPrefixes) {
-      if ((uri.equals(uriPrefix)) || (uri.startsWith(uriPrefix))) {
+      if ((uri.equals(uriPrefix)) || (uri.startsWith(uriPrefix + "/"))) {
         return true;
       }
     }

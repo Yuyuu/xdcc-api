@@ -30,9 +30,15 @@ public class AuthenticationResource {
       return Payload.badRequest();
     }
 
+    Map<String, Object> data = buildDataObject(mongoUser);
+
+    LOG.info("Authentication successful");
+    return new Payload("application/json;charset=UTF-8", data, 200);
+  }
+
+  private Map<String, Object> buildDataObject(MongoUser mongoUser) {
     LinkedList<String> audience = Lists.newLinkedList();
     audience.add("xdcc-api");
-    audience.add("xdcc-webapp-express");
 
     Map<String, Object> claims = Maps.newHashMap();
     claims.put("iss", "xdcc-api");
@@ -41,10 +47,15 @@ public class AuthenticationResource {
 
     String token = signer.sign(claims);
 
-    String data = "{\"token\": \"" + token + "\"}";
+    Map<String, String> userDataMap = Maps.newHashMap();
+    userDataMap.put("id", mongoUser.getId().toStringMongod());
+    userDataMap.put("login", mongoUser.getLogin());
+    userDataMap.put("role", "member");
 
-    LOG.info("Authentication successful, sending token");
-    return new Payload("application/json;charset=UTF-8", data, 200);
+    Map<String, Object> data = Maps.newHashMap();
+    data.put("token", token);
+    data.put("user", userDataMap);
+    return data;
   }
 
   private final JWTSigner signer = new JWTSigner(System.getenv("JWT_SECRET"));
