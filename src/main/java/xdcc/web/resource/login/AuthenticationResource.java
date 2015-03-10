@@ -10,12 +10,13 @@ import net.codestory.http.payload.Payload;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xdcc.web.resource.AbstractResource;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class AuthenticationResource {
+public class AuthenticationResource extends AbstractResource {
 
   @Inject
   public AuthenticationResource(MongoUserService mongoUserService) {
@@ -27,7 +28,8 @@ public class AuthenticationResource {
     MongoUser mongoUser = mongoUserService.findByLogin(candidateUser.getLogin());
     if ((mongoUser == null) || (!BCrypt.checkpw(candidateUser.getPassword(), mongoUser.getPassword()))) {
       LOG.info("Authentication failed: invalid login or password");
-      return Payload.badRequest();
+      Map data = errors(Lists.newArrayList("INVALID_LOGIN_OR_PASSWORD"));
+      return new Payload("application/json;charset=UTF-8", data, 400);
     }
 
     Map<String, Object> data = buildDataObject(mongoUser);
