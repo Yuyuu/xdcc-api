@@ -32,13 +32,11 @@ public class AuthenticationResource extends AbstractResource {
       return new Payload("application/json;charset=UTF-8", data, 400);
     }
 
-    Map<String, Object> data = buildDataObject(mongoUser);
-
     LOG.info("Authentication successful");
-    return new Payload("application/json;charset=UTF-8", data, 200);
+    return successfulAuthenticationPayload(mongoUser);
   }
 
-  private Map<String, Object> buildDataObject(MongoUser mongoUser) {
+  private Payload successfulAuthenticationPayload(MongoUser mongoUser) {
     LinkedList<String> audience = Lists.newLinkedList();
     audience.add("xdcc-api");
 
@@ -57,7 +55,8 @@ public class AuthenticationResource extends AbstractResource {
     Map<String, Object> data = Maps.newHashMap();
     data.put("token", token);
     data.put("user", userDataMap);
-    return data;
+
+    return new Payload("application/json;charset=UTF-8", data, 200);
   }
 
   private final JWTSigner signer = new JWTSigner(System.getenv("JWT_SECRET"));
