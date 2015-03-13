@@ -5,8 +5,8 @@ import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService;
 import fr.xdcc.api.model.Bot;
 import fr.xdcc.api.model.ConcreteFile;
 import fr.xdcc.api.model.MongoBot;
-import fr.xdcc.api.tasker.parser.Parser;
 import fr.xdcc.api.tasker.parser.XdccListFileParser;
+import fr.xdcc.api.tasker.parser.XdccWebsiteParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,32 +28,16 @@ public class TaskerService {
   /**
    * Updates the list of available files of a bot if it was changed
    * @param  updatedList the file containing the freshly received list
-   * @param botName the name of the bot who sent the list
+   * @param botNickname the name of the bot who sent the list
    */
-  public void updateAvailableFiles(File updatedList, String botName) {
-    Map<String, String> packMap = parser.parse(updatedList);
-    LinkedHashSet<ConcreteFile> concreteFileSet = Sets.newLinkedHashSet();
+  public void updateAvailableFiles(File updatedList, String botNickname) {
+    Map<String, String> packMap = xdccListFileParser.parse(updatedList);
+    internalUpdate(botNickname, packMap);
+  }
 
-    // TODO Meh..
-    packMap.entrySet().stream().forEach(entry ->
-        concreteFileSet.add(new ConcreteFile(entry.getKey(), entry.getValue()))
-    );
-
-    Bot bot = mongoBotService.findByName(botName);
-    if (bot == null) {
-      bot = new MongoBot(botName);
-    }
-
-    if (!concreteFileSet.equals(bot.getFileSet())) {
-      bot.setFileSet(concreteFileSet);
-      bot.setLastUpdated(new Date());
-      LOG.info("Bot {} got new files", bot.getName());
-    } else {
-      LOG.info("Files of bot {} remain unchanged", bot.getName());
-    }
-
-    bot.setLastChecked(new Date());
-    mongoBotService.update((MongoBot) bot);
+  public void updateAvailableFiles(String botNickname) {
+    Map<String, String> packMap = xdccWebsiteParser.parse(botNickname);
+    internalUpdate(botNickname, packMap);
   }
 
   /**
@@ -69,7 +53,33 @@ public class TaskerService {
     botToUpdateList.stream().forEach(mongoBotService::insert);
   }
 
+  private void internalUpdate(String botNickname, Map<String, String> packMap) {
+    LinkedHashSet<ConcreteFile> concreteFileSet = Sets.newLinkedHashSet();
+
+    // TODO Meh..
+    packMap.entrySet().stream().forEach(entry ->
+            concreteFileSet.add(new ConcreteFile(entry.getKey(), entry.getValue()))
+    );
+
+    Bot bot = mongoBotService.findByName(botNickname);
+    if (bot == null) {
+      bot = new MongoBot(botNickname);
+    }
+
+    if (!concreteFileSet.equals(bot.getFileSet())) {
+      bot.setFileSet(concreteFileSet);
+      bot.setLastUpdated(new Date());
+      LOG.info("Bot {} got new files", bot.getName());
+    } else {
+      LOG.info("Files of bot {} remain unchanged", bot.getName());
+    }
+
+    bot.setLastChecked(new Date());
+    mongoBotService.update((MongoBot) bot);
+  }
+
   private MongoBotService mongoBotService;
-  private Parser parser = new XdccListFileParser();
+  private XdccListFileParser xdccListFileParser = new XdccListFileParser();
+  private XdccWebsiteParser xdccWebsiteParser = new XdccWebsiteParser();
   private static final Logger LOG = LoggerFactory.getLogger(TaskerService.class);
 }

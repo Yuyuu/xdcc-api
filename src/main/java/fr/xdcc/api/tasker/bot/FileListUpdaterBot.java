@@ -41,6 +41,15 @@ public class FileListUpdaterBot extends PircBot {
   }
 
   @Override
+  protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
+    if (notice.contains("Invalid Pack Number")) {
+      LOG.info("List file of bot {} is not available, parsing website instead", sourceNick);
+      taskerService.updateAvailableFiles(sourceNick);
+      registerNewTaskAchieved();
+    }
+  }
+
+  @Override
   protected synchronized void onUserList(String channel, User[] users) {
     assert channel.equals("#serial_us");
     this.notifyAll();
@@ -54,6 +63,9 @@ public class FileListUpdaterBot extends PircBot {
     } else {
       LOG.info("Transfer completed: {}", dccFileTransfer.getFile().getAbsolutePath());
       taskerService.updateAvailableFiles(dccFileTransfer.getFile(), dccFileTransfer.getNick());
+      if (!dccFileTransfer.getFile().delete()) {
+        LOG.debug("Failed to delete file: {}", dccFileTransfer.getFile().getAbsolutePath());
+      }
     }
     registerNewTaskAchieved();
   }

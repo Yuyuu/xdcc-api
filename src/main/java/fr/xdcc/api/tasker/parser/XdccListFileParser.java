@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class XdccListFileParser implements Parser {
+public class XdccListFileParser {
 
   private static final Logger LOG = LoggerFactory.getLogger(XdccListFileParser.class);
   // Searches for the id of the pack declaration
@@ -33,13 +33,15 @@ public class XdccListFileParser implements Parser {
   }
 
   /**
-   * @inheritDoc
+   * Parses the available packs from the file sent a the bot
+   * @param file the file containing the list of available packs
+   * @return a map which entries are the id and the name of the packs
    */
-  @Override
   public Map<String, String> parse(File file) {
     packMap = Maps.newLinkedHashMap();
     Path pathToFile = FileSystems.getDefault().getPath(file.getAbsolutePath());
 
+    LOG.info("Parsing file: {}", file.getName());
     try {
       Files.lines(pathToFile).filter(
           line -> line.trim().startsWith("#")

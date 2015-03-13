@@ -4,7 +4,6 @@ import fr.xdcc.api.model.Bot
 import fr.xdcc.api.model.MongoBot
 import fr.xdcc.api.model.ConcreteFile
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService
-import fr.xdcc.api.tasker.parser.Parser
 import fr.xdcc.api.tasker.parser.XdccListFileParser
 import spock.lang.Specification
 
@@ -13,21 +12,20 @@ class TaskerServiceTest extends Specification {
 
   TaskerService taskerService
   MongoBotService mongoBotService
-  Parser parser
+  XdccListFileParser xdccListFileParser
 
   def setup() {
-    taskerService = new TaskerService()
     mongoBotService = Mock(MongoBotService)
-    parser = Mock(XdccListFileParser)
+    xdccListFileParser = Mock(XdccListFileParser)
+    taskerService = new TaskerService(mongoBotService)
 
-    taskerService.mongoBotService = mongoBotService
-    taskerService.parser = parser
+    taskerService.xdccListFileParser = xdccListFileParser
   }
 
   def "bot is updated when new files are found"() {
     given: "a mocked File"
     File file = new File("spock.txt")
-    parser.parse(file) >> ["#1": "Ep1", "#2": "Ep2", "#3": "Ep3"]
+    xdccListFileParser.parse(file) >> ["#1": "Ep1", "#2": "Ep2", "#3": "Ep3"]
 
     and: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
@@ -49,7 +47,7 @@ class TaskerServiceTest extends Specification {
   def "bot remain unchanged when no new file is found"() {
     given: "a mocked File"
     File file = new File("spock.txt")
-    parser.parse(file) >> [:]
+    xdccListFileParser.parse(file) >> [:]
 
     and: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
@@ -109,7 +107,7 @@ class TaskerServiceTest extends Specification {
   def "lastChecked date is updated when a bot is being checked"() {
     given: "a mocked File"
     File file = new File("spock.txt")
-    parser.parse(file) >> [:]
+    xdccListFileParser.parse(file) >> [:]
 
     and: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
