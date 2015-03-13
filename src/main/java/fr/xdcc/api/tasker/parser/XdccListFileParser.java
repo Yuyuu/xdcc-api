@@ -24,7 +24,6 @@ public class XdccListFileParser {
 
   private Pattern splitPattern;
   private Matcher matcher;
-  private LinkedHashMap<String, String> packMap;
 
   public XdccListFileParser() {
     Pattern packPattern = Pattern.compile(PACK_ID_REGEX);
@@ -32,20 +31,17 @@ public class XdccListFileParser {
     matcher = packPattern.matcher("");
   }
 
-  /**
-   * Parses the available packs from the file sent a the bot
-   * @param file the file containing the list of available packs
-   * @return a map which entries are the id and the name of the packs
-   */
   public Map<String, String> parse(File file) {
-    packMap = Maps.newLinkedHashMap();
+    LinkedHashMap<String, String> packMap = Maps.newLinkedHashMap();
     Path pathToFile = FileSystems.getDefault().getPath(file.getAbsolutePath());
 
     LOG.info("Parsing file: {}", file.getName());
     try {
       Files.lines(pathToFile).filter(
           line -> line.trim().startsWith("#")
-      ).forEach(this::extractPackEntry);
+      ).map(this::extractPackEntry).forEach(
+          pack -> packMap.put(pack.getId(), pack.getTitle())
+      );
     } catch (IOException e) {
       LOG.debug("Exception in method parse: {}", e.getMessage());
     }
@@ -53,7 +49,7 @@ public class XdccListFileParser {
     return packMap;
   }
 
-  private void extractPackEntry(String packLine) {
+  private PackEntry extractPackEntry(String packLine) {
     String[] splitPart = splitPattern.split(packLine);
     assert splitPart.length == 2;
 
@@ -61,12 +57,14 @@ public class XdccListFileParser {
       matcher.reset(splitPart[0]);
       if (matcher.find()) {
         // Remove #
-        packMap.put(matcher.group().substring(1), splitPart[1]);
+        return new PackEntry(matcher.group().substring(1), splitPart[1]);
       } else {
         LOG.debug("No packId match for line: [{}]", packLine);
       }
     } catch (Exception e) {
       LOG.debug("[{}]: {}", packLine, e.getMessage());
     }
+
+    return null;
   }
 }

@@ -41,7 +41,7 @@ public class FileListUpdaterBot extends PircBot {
   }
 
   @Override
-  protected void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
+  protected synchronized void onNotice(String sourceNick, String sourceLogin, String sourceHostname, String target, String notice) {
     if (notice.contains("Invalid Pack Number")) {
       LOG.info("List file of bot {} is not available, parsing website instead", sourceNick);
       taskerService.updateAvailableFiles(sourceNick);

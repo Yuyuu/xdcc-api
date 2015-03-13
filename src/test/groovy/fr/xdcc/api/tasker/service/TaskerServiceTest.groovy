@@ -5,6 +5,7 @@ import fr.xdcc.api.model.MongoBot
 import fr.xdcc.api.model.ConcreteFile
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService
 import fr.xdcc.api.tasker.parser.XdccListFileParser
+import fr.xdcc.api.tasker.parser.XdccWebsiteParser
 import spock.lang.Specification
 
 @SuppressWarnings("GroovyAccessibility")
@@ -13,13 +14,19 @@ class TaskerServiceTest extends Specification {
   TaskerService taskerService
   MongoBotService mongoBotService
   XdccListFileParser xdccListFileParser
+  XdccWebsiteParser xdccWebsiteParser
+  UrlFinder urlFinder
 
   def setup() {
     mongoBotService = Mock(MongoBotService)
     xdccListFileParser = Mock(XdccListFileParser)
+    xdccWebsiteParser = Mock(XdccWebsiteParser)
+    urlFinder = Mock(UrlFinder)
     taskerService = new TaskerService(mongoBotService)
 
     taskerService.xdccListFileParser = xdccListFileParser
+    taskerService.xdccWebsiteParser = xdccWebsiteParser
+    taskerService.urlFinder = urlFinder
   }
 
   def "bot is updated when new files are found"() {
@@ -58,7 +65,47 @@ class TaskerServiceTest extends Specification {
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)
 
-    then: "the bot should be be updated"
+    then: "the bot should not be updated"
+    0 * bot.setFileSet(_ as LinkedHashSet)
+  }
+
+  def "bot is updated when new files are found (Website)"() {
+    given: "a mocked MongoBot for MongoBotService to return"
+    def botName = "bot"
+    Bot bot = Mock(MongoBot)
+    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    mongoBotService.findByName(botName) >> bot
+
+    and:
+    urlFinder.findBotUrl(botName) >> "http://url.com"
+    xdccWebsiteParser.parse(_ as InputStream) >> ["#1": "Ep1", "#2": "Ep2", "#3": "Ep3"]
+
+    when: "calling updateAvailableFiles"
+    taskerService.updateAvailableFiles(botName)
+
+    then: "the set of files and lastUpdated sate of the bot should be overridden"
+    1 * bot.setFileSet(_ as LinkedHashSet)
+    1 * bot.setLastUpdated(_ as Date)
+
+    then: "the bot should be updated in the database"
+    1 * mongoBotService.update(bot)
+  }
+
+  def "bot remain unchanged when no new file is found (Website)"() {
+    given: "a mocked MongoBot for MongoBotService to return"
+    def botName = "bot"
+    Bot bot = Mock(MongoBot)
+    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    mongoBotService.findByName(botName) >> bot
+
+    and:
+    urlFinder.findBotUrl(botName) >> "http://url.com"
+    xdccWebsiteParser.parse(_ as InputStream) >> [:]
+
+    when: "calling updateAvailableFiles"
+    taskerService.updateAvailableFiles(botName)
+
+    then: "the bot should not be updated"
     0 * bot.setFileSet(_ as LinkedHashSet)
   }
 

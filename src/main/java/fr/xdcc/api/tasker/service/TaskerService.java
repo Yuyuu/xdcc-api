@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,25 +27,49 @@ public class TaskerService {
     this.mongoBotService = mongoBotService;
   }
 
-  /**
-   * Updates the list of available files of a bot if it was changed
-   * @param  updatedList the file containing the freshly received list
-   * @param botNickname the name of the bot who sent the list
-   */
   public void updateAvailableFiles(File updatedList, String botNickname) {
     Map<String, String> packMap = xdccListFileParser.parse(updatedList);
-    internalUpdate(botNickname, packMap);
+
+    Bot bot = mongoBotService.findByName(botNickname);
+    if (bot == null) {
+      bot = new MongoBot(botNickname);
+    }
+
+    internalUpdate(bot, packMap);
   }
 
   public void updateAvailableFiles(String botNickname) {
-    Map<String, String> packMap = xdccWebsiteParser.parse(botNickname);
-    internalUpdate(botNickname, packMap);
+    Bot bot = mongoBotService.findByName(botNickname);
+    String botStringUrl;
+
+    if (bot == null) {
+      bot = new MongoBot(botNickname);
+      bot.setUrl(botStringUrl = urlFinder.findBotUrl(botNickname));
+    } else {
+      botStringUrl = (bot.getUrl() != null) ? bot.getUrl() : urlFinder.findBotUrl(botNickname);
+    }
+
+    if (botStringUrl == null) {
+      LOG.debug("URL of bot {} could not be found", botNickname);
+      return;
+    }
+
+    try {
+      URL url = new URL(botStringUrl);
+      Map<String, String> packMap = xdccWebsiteParser.parse(url.openStream());
+      internalUpdate(bot, packMap);
+    } catch (IOException exception) {
+      LOG.info(
+          "There was a problem with the URL [{}] of bot {} ==> [{}]",
+          botStringUrl,
+          botNickname,
+          exception.getMessage()
+      );
+      bot.setUrl(null);
+      mongoBotService.update((MongoBot) bot);
+    }
   }
 
-  /**
-   * Searches for the bots missing in the database and adds them
-   * @param botNameList the list of bot names that should be in the database
-   */
   public void updateAvailableBots(List<String> botNameList) {
     Iterable<MongoBot> savedBotList = mongoBotService.getBotsIn(botNameList);
     savedBotList.forEach(bot -> botNameList.remove(bot.getName()));
@@ -53,18 +79,13 @@ public class TaskerService {
     botToUpdateList.stream().forEach(mongoBotService::insert);
   }
 
-  private void internalUpdate(String botNickname, Map<String, String> packMap) {
+  private void internalUpdate(Bot bot, Map<String, String> packMap) {
     LinkedHashSet<ConcreteFile> concreteFileSet = Sets.newLinkedHashSet();
 
     // TODO Meh..
     packMap.entrySet().stream().forEach(entry ->
             concreteFileSet.add(new ConcreteFile(entry.getKey(), entry.getValue()))
     );
-
-    Bot bot = mongoBotService.findByName(botNickname);
-    if (bot == null) {
-      bot = new MongoBot(botNickname);
-    }
 
     if (!concreteFileSet.equals(bot.getFileSet())) {
       bot.setFileSet(concreteFileSet);
@@ -79,6 +100,7 @@ public class TaskerService {
   }
 
   private MongoBotService mongoBotService;
+  private UrlFinder urlFinder = new UrlFinder();
   private XdccListFileParser xdccListFileParser = new XdccListFileParser();
   private XdccWebsiteParser xdccWebsiteParser = new XdccWebsiteParser();
   private static final Logger LOG = LoggerFactory.getLogger(TaskerService.class);

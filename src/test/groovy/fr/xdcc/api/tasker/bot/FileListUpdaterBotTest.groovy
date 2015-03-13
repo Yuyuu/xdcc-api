@@ -113,6 +113,15 @@ class FileListUpdaterBotTest extends Specification {
     0 * dccFileTransfer.close()
   }
 
+  def "list is not available for download"() {
+    when:
+    bot.onNotice("A_Bot", null, null, null, "*** Invalid Pack Number ***")
+
+    then:
+    1 * taskerService.updateAvailableFiles("A_Bot")
+    bot.nbTasksAchieved == 1
+  }
+
   def "assertion fails when user list is received from unwanted channel"() {
     when: "onUserList is fired"
     bot.onUserList("#wrong_channel", null)

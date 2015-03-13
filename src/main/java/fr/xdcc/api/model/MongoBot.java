@@ -14,6 +14,7 @@ public class MongoBot implements Bot {
   @SuppressWarnings("UnusedDeclaration")
   private ObjectId _id;
   private String name;
+  private String url;
   private LinkedHashSet<ConcreteFile> fileSet = Sets.newLinkedHashSet();
   private Date lastChecked;
   private Date lastUpdated;
@@ -37,6 +38,11 @@ public class MongoBot implements Bot {
   }
 
   @Override
+  public String getUrl() {
+    return url;
+  }
+
+  @Override
   public LinkedHashSet<ConcreteFile> getFileSet() {
     return fileSet;
   }
@@ -49,6 +55,11 @@ public class MongoBot implements Bot {
   @Override
   public Date getLastUpdated() {
     return lastUpdated;
+  }
+
+  @Override
+  public void setUrl(String url) {
+    this.url = url;
   }
 
   @Override
