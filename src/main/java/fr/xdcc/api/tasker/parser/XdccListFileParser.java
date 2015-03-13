@@ -20,7 +20,7 @@ public class XdccListFileParser {
   // Searches for the id of the pack declaration
   private static final String PACK_ID_REGEX = "#\\d+";
   // Searches for the end of the size declaration
-  private static final String SPLIT_REGEX = "\\d{1,3}[KMG]\\]\\s";
+  private static final String SPLIT_REGEX = "(?i)\\d{1,3}[KMG]\\]\\s";
 
   private Pattern splitPattern;
   private Matcher matcher;
@@ -66,5 +66,24 @@ public class XdccListFileParser {
     }
 
     return null;
+  }
+}
+
+class PackEntry {
+
+  private String id;
+  private String title;
+
+  public PackEntry(String id, String title) {
+    this.id = id;
+    this.title = title;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public String getTitle() {
+    return title;
   }
 }

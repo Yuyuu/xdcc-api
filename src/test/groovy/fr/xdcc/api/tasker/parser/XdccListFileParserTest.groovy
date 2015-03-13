@@ -22,13 +22,13 @@ class XdccListFileParserTest extends Specification {
   #10   55x [175M] The.Big.Bang.Theory.S01E09.HDTV.XviD-XOR.avi
   #11   54x [174M] The.Big.Bang.Theory.S01E10.HDTV.XviD-LOL.avi
   #12   54x [175M] The.Big.Bang.Theory.S01E11.HDTV.XviD-FoV.avi
-  #13   51x [175M] The.Big.Bang.Theory.S01E12.HDTV.XviD-FoV.avi
+  #13   51x [175m] The.Big.Bang.Theory.S01E12.HDTV.XviD-FoV.avi
   #14   53x [175M] The.Big.Bang.Theory.S01E13.HDTV.[ XviD-FoV ].avi
   #15   53x [175M] The.Big.Bang.Theory.S01E14.HDTV.XviD-XOR.avi
   #16   50x [176M] The.Big.Bang.Theory.- S01E15 -.HDTV.XviD-FoV.avi
   #17   49x [175M] The.Big.Bang.Theory.S01E16.HDTV.XviD-XOR.avi
   #18   52x [175M] The.Big.Bang.Theory.S01E17.HDTV.XviD-LOL.avi
-  #19   50x [249K] The.Big.Bang.Theory.S02.HDTV.XviD.SRT.VF.zip
+  #19   50x [ <1k] The.Big.Bang.Theory.S02.HDTV.XviD.SRT.VF.zip
   #20   55x [175M] The.Big.Bang.Theory.S02E01.REAL.PROPER.HDTV.XviD-NoTV.avi
 ** Fourni par PastisD@Otaku-IRC.fr **
 Total Offered: 25GB  Total Transferred: 2.0TB
