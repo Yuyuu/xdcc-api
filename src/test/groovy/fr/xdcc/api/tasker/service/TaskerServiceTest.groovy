@@ -83,6 +83,9 @@ class TaskerServiceTest extends Specification {
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(botName)
 
+    then:
+    1 * bot.setUrl("http://url.com")
+
     then: "the set of files and lastUpdated sate of the bot should be overridden"
     1 * bot.setFileSet(_ as LinkedHashSet)
     1 * bot.setLastUpdated(_ as Date)

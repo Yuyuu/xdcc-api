@@ -57,6 +57,7 @@ public class TaskerService {
     try {
       URL url = new URL(botStringUrl);
       Map<String, String> packMap = xdccWebsiteParser.parse(url.openStream());
+      bot.setUrl(botStringUrl);
       internalUpdate(bot, packMap);
     } catch (IOException exception) {
       LOG.info(
