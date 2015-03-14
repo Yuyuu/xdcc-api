@@ -1,1 +1,1 @@
-web:    java -cp ./build/deps/*:./build/libs/* xdcc.Main
+web:    java -DPROD_MODE=$PROD_MODE -cp ./build/deps/*:./build/libs/* xdcc.Main
