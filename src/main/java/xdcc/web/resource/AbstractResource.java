@@ -2,7 +2,6 @@ package xdcc.web.resource;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.codestory.http.Context;
 import org.bson.types.ObjectId;
 
 import java.util.List;
@@ -22,15 +21,12 @@ public abstract class AbstractResource {
     Map<String, String> errorData = Maps.newHashMap();
     codes.forEach(code -> errorData.put("message", code));
 
-    List<Map<String, String>> errorList = Lists.newArrayList(errorData);
+    List<Map<String, String>> errorList = Lists.newArrayList();
+    errorList.add(errorData);
 
     Map<String, List<Map<String, String>>> errorMap = Maps.newHashMap();
     errorMap.put("errors", errorList);
 
     return errorMap;
-  }
-
-  protected void addAccessControlHeader(Context context) {
-    context.response().setHeader("Access-Control-Allow-Origin", "http://xdcc-webapp.herokuapp.com");
   }
 }

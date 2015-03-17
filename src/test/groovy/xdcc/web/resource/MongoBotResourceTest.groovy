@@ -71,24 +71,6 @@ class MongoBotResourceTest extends Specification {
     result == marshallBot(bot)
   }
 
-  def "access control header should be added in every response"() {
-    given:
-    mongoBotService.list() >> []
-    ObjectId id = new ObjectId()
-
-    when: "list method is called"
-    mongoBotResource.list(context)
-
-    then: "Access-Control-Allow-Origin header should be added"
-    1 * context.response().setHeader("Access-Control-Allow-Origin", _ as String)
-
-    when: "show method is called"
-    mongoBotResource.show(id.toStringMongod(), context)
-
-    then: "Access-Control-Allow-Origin header should be added"
-    1 * context.response().setHeader("Access-Control-Allow-Origin", _ as String)
-  }
-
   private static Map marshallBot(MongoBot bot) {
     return [name: bot.name]
   }

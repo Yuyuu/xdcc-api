@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService;
 import fr.xdcc.api.model.MongoBot;
 import net.codestory.http.Context;
+import net.codestory.http.annotations.AllowOrigin;
 import net.codestory.http.annotations.Get;
 import xdcc.web.marshaller.Format;
 import xdcc.web.marshaller.Marshaller;
@@ -22,6 +23,7 @@ public class MongoBotResource extends AbstractResource {
   }
 
   @Get("/bot")
+  @AllowOrigin("http://xdcc-webapp.herokuapp.com")
   public List<Map<String, Object>> list(Context context) {
     String formatParameter = context.get("format");
     Format format = (formatParameter != null) ? Format.parseValue(formatParameter) : Format.SHORT;
@@ -32,16 +34,14 @@ public class MongoBotResource extends AbstractResource {
         botRepresentationList.add(mongoBotMarshaller.marshall(bot, format))
     );
 
-    addAccessControlHeader(context);
     return botRepresentationList;
   }
 
   @Get("/bot/:id")
+  @AllowOrigin("http://xdcc-webapp.herokuapp.com")
   public Map<String, Object> show(String id, Context context) {
     String formatParameter = context.get("format");
     Format format = (formatParameter != null) ? Format.parseValue(formatParameter) : Format.FULL;
-
-    addAccessControlHeader(context);
 
     MongoBot mongoBot = mongoBotService.get(parseObjectId(id));
     return mongoBotMarshaller.marshall(mongoBot, format);
