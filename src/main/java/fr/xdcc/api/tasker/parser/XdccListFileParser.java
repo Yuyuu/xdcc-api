@@ -66,23 +66,23 @@ public class XdccListFileParser {
 
     return null;
   }
-}
 
-class PackEntry {
+  private class PackEntry {
 
-  private long id;
-  private String title;
+    private long id;
+    private String title;
 
-  public PackEntry(long id, String title) {
-    this.id = id;
-    this.title = title;
-  }
+    public PackEntry(long id, String title) {
+      this.id = id;
+      this.title = title;
+    }
 
-  public long getId() {
-    return id;
-  }
+    public long getId() {
+      return id;
+    }
 
-  public String getTitle() {
-    return title;
+    public String getTitle() {
+      return title;
+    }
   }
 }
