@@ -22,7 +22,7 @@ public class MongoBotMarshaller implements Marshaller<MongoBot> {
   }
 
   private Map<String, Object> marshallShort(MongoBot mongoBot) {
-    Map<String, Object> mongoBotRepresentation = Maps.newLinkedHashMap();
+    Map<String, Object> mongoBotRepresentation = Maps.newHashMap();
     mongoBotRepresentation.put("id", mongoBot.getId().toStringMongod());
     mongoBotRepresentation.put("name", mongoBot.getName());
     mongoBotRepresentation.put("fileCount", mongoBot.getFileSet().size());
