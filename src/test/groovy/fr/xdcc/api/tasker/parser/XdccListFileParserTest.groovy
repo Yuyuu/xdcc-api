@@ -45,17 +45,17 @@ Total Offered: 25GB  Total Transferred: 2.0TB
 
     then: "the returned map should contain the following entries"
     result.size() == 11
-    result.get("10") == "The.Big.Bang.Theory.S01E09.HDTV.XviD-XOR.avi"
-    result.get("11") == "The.Big.Bang.Theory.S01E10.HDTV.XviD-LOL.avi"
-    result.get("12") == "The.Big.Bang.Theory.S01E11.HDTV.XviD-FoV.avi"
-    result.get("13") == "The.Big.Bang.Theory.S01E12.HDTV.XviD-FoV.avi"
-    result.get("14") == "The.Big.Bang.Theory.S01E13.HDTV.[ XviD-FoV ].avi"
-    result.get("15") == "The.Big.Bang.Theory.S01E14.HDTV.XviD-XOR.avi"
-    result.get("16") == "The.Big.Bang.Theory.- S01E15 -.HDTV.XviD-FoV.avi"
-    result.get("17") == "The.Big.Bang.Theory.S01E16.HDTV.XviD-XOR.avi"
-    result.get("18") == "The.Big.Bang.Theory.S01E17.HDTV.XviD-LOL.avi"
-    result.get("19") == "The.Big.Bang.Theory.S02.HDTV.XviD.SRT.VF.zip"
-    result.get("20") == "The.Big.Bang.Theory.S02E01.REAL.PROPER.HDTV.XviD-NoTV.avi"
+    result.get(10L) == "The.Big.Bang.Theory.S01E09.HDTV.XviD-XOR.avi"
+    result.get(11L) == "The.Big.Bang.Theory.S01E10.HDTV.XviD-LOL.avi"
+    result.get(12L) == "The.Big.Bang.Theory.S01E11.HDTV.XviD-FoV.avi"
+    result.get(13L) == "The.Big.Bang.Theory.S01E12.HDTV.XviD-FoV.avi"
+    result.get(14L) == "The.Big.Bang.Theory.S01E13.HDTV.[ XviD-FoV ].avi"
+    result.get(15L) == "The.Big.Bang.Theory.S01E14.HDTV.XviD-XOR.avi"
+    result.get(16L) == "The.Big.Bang.Theory.- S01E15 -.HDTV.XviD-FoV.avi"
+    result.get(17L) == "The.Big.Bang.Theory.S01E16.HDTV.XviD-XOR.avi"
+    result.get(18L) == "The.Big.Bang.Theory.S01E17.HDTV.XviD-LOL.avi"
+    result.get(19L) == "The.Big.Bang.Theory.S02.HDTV.XviD.SRT.VF.zip"
+    result.get(20L) == "The.Big.Bang.Theory.S02E01.REAL.PROPER.HDTV.XviD-NoTV.avi"
   }
 
   def "parse - Malformed content"() {

@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,8 +30,8 @@ public class XdccListFileParser {
     matcher = packPattern.matcher("");
   }
 
-  public Map<String, String> parse(File file) {
-    LinkedHashMap<String, String> packMap = Maps.newLinkedHashMap();
+  public Map<Long, String> parse(File file) {
+    Map<Long, String> packMap = Maps.newHashMap();
     Path pathToFile = FileSystems.getDefault().getPath(file.getAbsolutePath());
 
     LOG.info("Parsing file: {}", file.getName());
@@ -57,7 +56,7 @@ public class XdccListFileParser {
       matcher.reset(splitPart[0]);
       if (matcher.find()) {
         // Remove #
-        return new PackEntry(matcher.group().substring(1), splitPart[1]);
+        return new PackEntry(Long.parseLong(matcher.group().substring(1)), splitPart[1]);
       } else {
         LOG.debug("No packId match for line: [{}]", packLine);
       }
@@ -71,15 +70,15 @@ public class XdccListFileParser {
 
 class PackEntry {
 
-  private String id;
+  private long id;
   private String title;
 
-  public PackEntry(String id, String title) {
+  public PackEntry(long id, String title) {
     this.id = id;
     this.title = title;
   }
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 

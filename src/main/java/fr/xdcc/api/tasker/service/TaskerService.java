@@ -14,10 +14,7 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TaskerService {
@@ -28,7 +25,7 @@ public class TaskerService {
   }
 
   public void updateAvailableFiles(File updatedList, String botNickname) {
-    Map<String, String> packMap = xdccListFileParser.parse(updatedList);
+    Map<Long, String> packMap = xdccListFileParser.parse(updatedList);
 
     Bot bot = mongoBotService.findByName(botNickname);
     if (bot == null) {
@@ -56,7 +53,7 @@ public class TaskerService {
 
     try {
       URL url = new URL(botStringUrl);
-      Map<String, String> packMap = xdccWebsiteParser.parse(url.openStream());
+      Map<Long, String> packMap = xdccWebsiteParser.parse(url.openStream());
       bot.setUrl(botStringUrl);
       internalUpdate(bot, packMap);
     } catch (IOException exception) {
@@ -80,8 +77,8 @@ public class TaskerService {
     botToUpdateList.stream().forEach(mongoBotService::insert);
   }
 
-  private void internalUpdate(Bot bot, Map<String, String> packMap) {
-    LinkedHashSet<ConcreteFile> concreteFileSet = Sets.newLinkedHashSet();
+  private void internalUpdate(Bot bot, Map<Long, String> packMap) {
+    Set<ConcreteFile> concreteFileSet = Sets.newHashSet();
 
     // TODO Meh..
     packMap.entrySet().stream().forEach(entry ->

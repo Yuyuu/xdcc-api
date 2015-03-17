@@ -125,12 +125,12 @@ class MongoBotServiceTest extends Specification {
   def "update"() {
     given: "a new MongoBot with two ConcreteFiles"
     MongoBot mongoBot = new MongoBot('NewBot')
-    mongoBot.fileSet.add(new ConcreteFile("#1", "First.Episode.avi"))
-    mongoBot.fileSet.add(new ConcreteFile("#2", "Second.Episode.avi"))
+    mongoBot.fileSet.add(new ConcreteFile(1L, "First.Episode.avi"))
+    mongoBot.fileSet.add(new ConcreteFile(2L, "Second.Episode.avi"))
     mongoCollection.insert(mongoBot)
 
     when: "Adding another ConcreteFile to the bot and calling update method"
-    mongoBot.fileSet.add(new ConcreteFile("#3", "Third.Episode.avi"))
+    mongoBot.fileSet.add(new ConcreteFile(3L, "Third.Episode.avi"))
     mongoBotService.update(mongoBot)
     def result = mongoBotService.findByName(mongoBot.name)
 

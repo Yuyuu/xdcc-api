@@ -5,7 +5,7 @@ import com.google.common.collect.Sets;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class MongoBot implements Bot {
 
@@ -15,7 +15,7 @@ public class MongoBot implements Bot {
   private ObjectId _id;
   private String name;
   private String url;
-  private LinkedHashSet<ConcreteFile> fileSet = Sets.newLinkedHashSet();
+  private Set<ConcreteFile> fileSet = Sets.newLinkedHashSet();
   private Date lastChecked;
   private Date lastUpdated;
 
@@ -43,7 +43,7 @@ public class MongoBot implements Bot {
   }
 
   @Override
-  public LinkedHashSet<ConcreteFile> getFileSet() {
+  public Set<ConcreteFile> getFileSet() {
     return fileSet;
   }
 
@@ -63,7 +63,7 @@ public class MongoBot implements Bot {
   }
 
   @Override
-  public void setFileSet(LinkedHashSet<ConcreteFile> newFileSet) {
+  public void setFileSet(Set<ConcreteFile> newFileSet) {
     fileSet = newFileSet;
   }
 

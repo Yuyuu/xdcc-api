@@ -16,8 +16,8 @@ class MongoBotMarshallerTest extends Specification {
   def "can be marshalled in full format"() {
     given: "a file set"
     LinkedHashSet<ConcreteFile> fileSet = new LinkedHashSet<>()
-    fileSet.add(new ConcreteFile("#1", "Pack1"))
-    fileSet.add(new ConcreteFile("#2", "Pack2"))
+    fileSet.add(new ConcreteFile(1L, "Pack1"))
+    fileSet.add(new ConcreteFile(2L, "Pack2"))
 
     and: "a mocked bot"
     MongoBot bot = Mock(MongoBot)

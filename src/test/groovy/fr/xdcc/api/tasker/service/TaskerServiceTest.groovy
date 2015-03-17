@@ -1,5 +1,6 @@
 package fr.xdcc.api.tasker.service
 
+import com.google.common.collect.Sets
 import fr.xdcc.api.model.Bot
 import fr.xdcc.api.model.MongoBot
 import fr.xdcc.api.model.ConcreteFile
@@ -32,19 +33,19 @@ class TaskerServiceTest extends Specification {
   def "bot is updated when new files are found"() {
     given: "a mocked File"
     File file = new File("spock.txt")
-    xdccListFileParser.parse(file) >> ["#1": "Ep1", "#2": "Ep2", "#3": "Ep3"]
+    xdccListFileParser.parse(file) >> [1L: "Ep1", 2L: "Ep2", 3L: "Ep3"]
 
     and: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
     Bot bot = Mock(MongoBot)
-    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    bot.fileSet >> new HashSet<ConcreteFile>()
     mongoBotService.findByName(botName) >> bot
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)
 
     then: "the set of files and lastUpdated sate of the bot should be overridden"
-    1 * bot.setFileSet(_ as LinkedHashSet)
+    1 * bot.setFileSet(_ as HashSet)
     1 * bot.setLastUpdated(_ as Date)
 
     then: "the bot should be updated in the database"
@@ -54,31 +55,31 @@ class TaskerServiceTest extends Specification {
   def "bot remain unchanged when no new file is found"() {
     given: "a mocked File"
     File file = new File("spock.txt")
-    xdccListFileParser.parse(file) >> [:]
+    xdccListFileParser.parse(file) >> [1L: "Ep1", 2L: "Ep2", 3L: "Ep3"]
 
     and: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
     Bot bot = Mock(MongoBot)
-    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    bot.fileSet >> Sets.newHashSet(new ConcreteFile(3L, "Ep3"), new ConcreteFile(1L, "Ep1"), new ConcreteFile(2L, "Ep2"))
     mongoBotService.findByName(botName) >> bot
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(file, botName)
 
     then: "the bot should not be updated"
-    0 * bot.setFileSet(_ as LinkedHashSet)
+    0 * bot.setFileSet(_ as HashSet)
   }
 
   def "bot is updated when new files are found (Website)"() {
     given: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
     Bot bot = Mock(MongoBot)
-    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    bot.fileSet >> new HashSet<ConcreteFile>()
     mongoBotService.findByName(botName) >> bot
 
     and:
     urlFinder.findBotUrl(botName) >> "http://url.com"
-    xdccWebsiteParser.parse(_ as InputStream) >> ["#1": "Ep1", "#2": "Ep2", "#3": "Ep3"]
+    xdccWebsiteParser.parse(_ as InputStream) >> [1L: "Ep1", 2L: "Ep2", 3L: "Ep3"]
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(botName)
@@ -87,7 +88,7 @@ class TaskerServiceTest extends Specification {
     1 * bot.setUrl("http://url.com")
 
     then: "the set of files and lastUpdated sate of the bot should be overridden"
-    1 * bot.setFileSet(_ as LinkedHashSet)
+    1 * bot.setFileSet(_ as HashSet)
     1 * bot.setLastUpdated(_ as Date)
 
     then: "the bot should be updated in the database"
@@ -98,18 +99,18 @@ class TaskerServiceTest extends Specification {
     given: "a mocked MongoBot for MongoBotService to return"
     def botName = "bot"
     Bot bot = Mock(MongoBot)
-    bot.fileSet >> new LinkedHashSet<ConcreteFile>()
+    bot.fileSet >> Sets.newHashSet(new ConcreteFile(3L, "Ep3"), new ConcreteFile(2L, "Ep2"), new ConcreteFile(1L, "Ep1"))
     mongoBotService.findByName(botName) >> bot
 
     and:
     urlFinder.findBotUrl(botName) >> "http://url.com"
-    xdccWebsiteParser.parse(_ as InputStream) >> [:]
+    xdccWebsiteParser.parse(_ as InputStream) >> [2L: "Ep2", 1L: "Ep1", 3L: "Ep3"]
 
     when: "calling updateAvailableFiles"
     taskerService.updateAvailableFiles(botName)
 
     then: "the bot should not be updated"
-    0 * bot.setFileSet(_ as LinkedHashSet)
+    0 * bot.setFileSet(_ as HashSet)
   }
 
   def "newly added bots are properly inserted in the database"() {

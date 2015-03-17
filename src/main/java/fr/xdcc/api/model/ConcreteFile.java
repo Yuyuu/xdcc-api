@@ -2,13 +2,13 @@ package fr.xdcc.api.model;
 
 public class ConcreteFile {
 
-  String packId;
+  long packId;
   String name;
 
   // Required to instanciate object with Jackson
   private ConcreteFile() {}
 
-  public ConcreteFile(String packId, String name) {
+  public ConcreteFile(long packId, String name) {
     this.packId = packId;
     this.name = name;
   }
@@ -17,27 +17,27 @@ public class ConcreteFile {
     return name;
   }
 
-  public String getPackId() {
+  public long getPackId() {
     return packId;
   }
 
   @Override
-  public boolean equals(Object document) {
-    if (this == document) return true;
-    if (document == null || getClass() != document.getClass()) return false;
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
 
-    ConcreteFile that = (ConcreteFile) document;
+    ConcreteFile that = (ConcreteFile) o;
 
+    if (packId != that.packId) return false;
     if (!name.equals(that.name)) return false;
-    if (!packId.equals(that.packId)) return false;
 
     return true;
   }
 
   @Override
   public int hashCode() {
-    int result = name.hashCode();
-    result = 31 * result + packId.hashCode();
+    int result = (int) (packId ^ (packId >>> 32));
+    result = 31 * result + name.hashCode();
     return result;
   }
 }

@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class XdccWebsiteParser {
 
-  public Map<String, String> parse(InputStream stream) throws IOException {
-    Map<String, String> map = Maps.newLinkedHashMap();
+  public Map<Long, String> parse(InputStream stream) throws IOException {
+    Map<Long, String> map = Maps.newHashMap();
     BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
     String inputLine;
     while ((inputLine = reader.readLine()) != null) {
       if (inputLine.contains("Pack #")) {
-        String packId = inputLine.substring(inputLine.indexOf("#") + 1, inputLine.indexOf("</td>"));
+        long packId = Long.parseLong(inputLine.substring(inputLine.indexOf("#") + 1, inputLine.indexOf("</td>")));
         inputLine = reader.readLine();
         String packName = inputLine.substring(inputLine.indexOf("title=\"") + 7, inputLine.indexOf("\">"));
 

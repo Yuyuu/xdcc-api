@@ -3,17 +3,17 @@ package fr.xdcc.api.model;
 import org.bson.types.ObjectId;
 
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 public interface Bot {
   ObjectId getId();
   String getName();
   String getUrl();
-  LinkedHashSet<ConcreteFile> getFileSet();
+  Set<ConcreteFile> getFileSet();
   Date getLastChecked();
   Date getLastUpdated();
   void setUrl(String url);
-  void setFileSet(LinkedHashSet<ConcreteFile> newFileSet);
+  void setFileSet(Set<ConcreteFile> newFileSet);
   void setLastChecked(Date time);
   void setLastUpdated(Date time);
 }
