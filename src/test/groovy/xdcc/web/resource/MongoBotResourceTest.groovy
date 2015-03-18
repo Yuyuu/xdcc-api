@@ -1,7 +1,7 @@
 package xdcc.web.resource
 
-import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService
-import fr.xdcc.api.model.MongoBot
+import fr.vter.xdcc.infrastructure.persistence.mongo.MongoBotService
+import fr.vter.xdcc.model.MongoBot
 import net.codestory.http.Context
 import net.codestory.http.Response
 import org.bson.types.ObjectId

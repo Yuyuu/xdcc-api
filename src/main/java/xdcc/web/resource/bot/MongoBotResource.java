@@ -1,8 +1,8 @@
 package xdcc.web.resource.bot;
 
 import com.google.common.collect.Lists;
-import fr.xdcc.api.infrastructure.persistence.mongo.MongoBotService;
-import fr.xdcc.api.model.MongoBot;
+import fr.vter.xdcc.infrastructure.persistence.mongo.MongoBotService;
+import fr.vter.xdcc.model.MongoBot;
 import net.codestory.http.Context;
 import net.codestory.http.annotations.AllowOrigin;
 import net.codestory.http.annotations.Get;

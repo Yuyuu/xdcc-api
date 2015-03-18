@@ -8,8 +8,8 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
-import fr.xdcc.api.tasker.scheduler.GuiceJobFactory;
-import fr.xdcc.api.tasker.service.TaskerService;
+import fr.vter.xdcc.tasker.scheduler.GuiceJobFactory;
+import fr.vter.xdcc.tasker.service.TaskerService;
 import org.jongo.Jongo;
 import org.quartz.spi.JobFactory;
 

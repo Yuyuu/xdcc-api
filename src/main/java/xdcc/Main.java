@@ -1,6 +1,6 @@
 package xdcc;
 
-import fr.xdcc.api.web.fluent.Server;
+import fr.vter.xdcc.web.fluent.Server;
 import xdcc.web.XdccApplication;
 
 import java.util.Optional;

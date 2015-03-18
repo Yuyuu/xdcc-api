@@ -1,7 +1,7 @@
 package xdcc.web.marshaller
 
-import fr.xdcc.api.model.ConcreteFile
-import fr.xdcc.api.model.MongoBot
+import fr.vter.xdcc.model.ConcreteFile
+import fr.vter.xdcc.model.MongoBot
 import org.bson.types.ObjectId
 import spock.lang.Specification
 
