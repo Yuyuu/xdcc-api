@@ -45,7 +45,6 @@ public class XdccApplication extends BaseApplication {
   @Override
   protected Configuration routes() {
     List<String> protectedRoutes = Lists.newLinkedList();
-    protectedRoutes.add("/bot");
 
     return routes -> routes
         .setIocAdapter(new GuiceAdapter(injector))
