@@ -35,10 +35,10 @@ public class AuthenticationFilter implements Filter {
     }
 
     String[] splitHeader = authorizationHeader.split(" ");
-    String dunno = splitHeader[0];
+    String title = splitHeader[0];
     String token = splitHeader[1];
 
-    if (!dunno.equals("Basic")) {
+    if (!title.equals("Basic")) {
       return Payload.unauthorized("/bot");
     }
 
