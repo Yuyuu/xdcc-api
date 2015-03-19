@@ -15,7 +15,6 @@ import org.quartz.spi.JobFactory;
 import xdcc.web.configuration.GuiceConfiguration;
 import xdcc.web.filter.AuthenticationFilter;
 import xdcc.web.filter.LogRequestFilter;
-import xdcc.web.resource.IndexResource;
 import xdcc.web.resource.bot.MongoBotResource;
 import xdcc.web.resource.login.AuthenticationResource;
 
@@ -50,7 +49,6 @@ public class XdccApplication extends BaseApplication {
         .setIocAdapter(new GuiceAdapter(injector))
         .filter(LogRequestFilter.class)
         .filter(new AuthenticationFilter(protectedRoutes, "xdcc:sessions"))
-        .add(IndexResource.class)
         .add(AuthenticationResource.class)
         .add(MongoBotResource.class);
   }
