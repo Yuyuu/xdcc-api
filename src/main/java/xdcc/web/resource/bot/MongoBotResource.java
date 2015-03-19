@@ -6,6 +6,7 @@ import fr.vter.xdcc.model.MongoBot;
 import net.codestory.http.Context;
 import net.codestory.http.annotations.AllowOrigin;
 import net.codestory.http.annotations.Get;
+import net.codestory.http.annotations.Prefix;
 import xdcc.web.marshaller.Format;
 import xdcc.web.marshaller.Marshaller;
 import xdcc.web.marshaller.MongoBotMarshaller;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
+@Prefix("/xdcc")
 public class MongoBotResource extends AbstractResource {
 
   @Inject
