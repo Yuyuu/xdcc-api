@@ -13,7 +13,7 @@ public class LogRequestFilter implements Filter {
 
   @Override
   public Payload apply(String uri, Context context, PayloadSupplier nextFilter) throws Exception {
-    LOG.info("{} => {}", context.request().clientAddress(), uri);
+    LOG.info("{} => {} {}", context.request().clientAddress(), context.method(), uri);
     return nextFilter.get();
   }
 
