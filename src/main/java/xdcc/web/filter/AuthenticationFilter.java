@@ -14,7 +14,7 @@ public class AuthenticationFilter implements Filter {
 
   public AuthenticationFilter(List<String> uriPrefixes, String issuer) {
     this.uriPrefixes = uriPrefixes;
-    tokenVerifier = new JWTVerifier(System.getenv("JWT_SECRET"), "xdcc-api", issuer);
+    tokenVerifier = new JWTVerifier(System.getenv("JWT_SECRET"), "xdcc:api", issuer);
   }
 
   @Override

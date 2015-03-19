@@ -49,7 +49,7 @@ public class XdccApplication extends BaseApplication {
     return routes -> routes
         .setIocAdapter(new GuiceAdapter(injector))
         .filter(LogRequestFilter.class)
-        .filter(new AuthenticationFilter(protectedRoutes, "xdcc-api"))
+        .filter(new AuthenticationFilter(protectedRoutes, "xdcc:sessions"))
         .add(IndexResource.class)
         .add(AuthenticationResource.class)
         .add(MongoBotResource.class);

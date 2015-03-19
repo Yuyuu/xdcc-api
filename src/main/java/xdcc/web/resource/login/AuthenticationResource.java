@@ -38,11 +38,11 @@ public class AuthenticationResource extends AbstractResource {
 
   private Payload successfulAuthenticationPayload(MongoUser mongoUser) {
     LinkedList<String> audience = Lists.newLinkedList();
-    audience.add("xdcc-api");
-    audience.add("xdcc-express-server");
+    audience.add("xdcc:api");
+    audience.add("xdcc:express-server");
 
     Map<String, Object> claims = Maps.newHashMap();
-    claims.put("iss", "xdcc-api");
+    claims.put("iss", "xdcc:sessions");
     claims.put("aud", audience);
     claims.put("exp", System.currentTimeMillis() / 1000L + 86400L); // 1-day validity
 
