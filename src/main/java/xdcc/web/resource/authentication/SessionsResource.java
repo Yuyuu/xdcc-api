@@ -25,7 +25,7 @@ public class SessionsResource extends AbstractResource {
     this.mongoUserService = mongoUserService;
   }
 
-  @Post("")
+  @Post("/")
   public Payload auth(MongoUser candidateUser) {
     MongoUser mongoUser = mongoUserService.findByLogin(candidateUser.getLogin());
     if ((mongoUser == null) || (!BCrypt.checkpw(candidateUser.getPassword(), mongoUser.getPassword()))) {
