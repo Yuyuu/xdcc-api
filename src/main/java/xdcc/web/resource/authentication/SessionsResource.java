@@ -1,4 +1,4 @@
-package xdcc.web.resource.login;
+package xdcc.web.resource.authentication;
 
 import com.auth0.jwt.JWTSigner;
 import com.google.common.collect.Lists;
@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import fr.vter.xdcc.infrastructure.persistence.mongo.MongoUserService;
 import fr.vter.xdcc.model.MongoUser;
 import net.codestory.http.annotations.Post;
+import net.codestory.http.annotations.Prefix;
 import net.codestory.http.payload.Payload;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
@@ -16,14 +17,15 @@ import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class AuthenticationResource extends AbstractResource {
+@Prefix("/sessions")
+public class SessionsResource extends AbstractResource {
 
   @Inject
-  public AuthenticationResource(MongoUserService mongoUserService) {
+  public SessionsResource(MongoUserService mongoUserService) {
     this.mongoUserService = mongoUserService;
   }
 
-  @Post("/login")
+  @Post("")
   public Payload auth(MongoUser candidateUser) {
     MongoUser mongoUser = mongoUserService.findByLogin(candidateUser.getLogin());
     if ((mongoUser == null) || (!BCrypt.checkpw(candidateUser.getPassword(), mongoUser.getPassword()))) {
@@ -62,5 +64,5 @@ public class AuthenticationResource extends AbstractResource {
 
   private final JWTSigner signer = new JWTSigner(System.getenv("JWT_SECRET"));
   private final MongoUserService mongoUserService;
-  private static final Logger LOG = LoggerFactory.getLogger(AuthenticationResource.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SessionsResource.class);
 }
