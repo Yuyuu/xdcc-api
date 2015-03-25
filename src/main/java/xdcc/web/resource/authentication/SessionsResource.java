@@ -46,7 +46,7 @@ public class SessionsResource extends AbstractResource {
     Map<String, Object> claims = Maps.newHashMap();
     claims.put("iss", "xdcc:sessions");
     claims.put("aud", audience);
-    claims.put("exp", System.currentTimeMillis() / 1000L + 86400L); // 1-day validity
+    claims.put("exp", System.currentTimeMillis() / 1000L + 604800); // 1-week validity
 
     String token = signer.sign(claims);
 
