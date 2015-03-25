@@ -22,7 +22,7 @@ dependencies {
   compile 'com.google.guava:guava:16.0.1'
   compile 'com.google.inject:guice:4.0-beta4'
 
-  compile ('net.code-story:http:2.80') {
+  compile ('net.code-story:http:2.83') {
     exclude module: 'slf4j-simple'
   }
   compile 'de.svenkubiak:jBCrypt:0.4'
