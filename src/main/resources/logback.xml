@@ -24,7 +24,7 @@
     <root level="WARN">
         <appender-ref ref="STDOUT"/>
     </root>
-    <logger name="fr.xdcc" additivity="false" level="INFO">
+    <logger name="fr.vter" additivity="false" level="INFO">
         <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="xdcc.web" additivity="false" level="INFO">
