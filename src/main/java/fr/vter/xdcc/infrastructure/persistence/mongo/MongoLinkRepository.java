@@ -1,0 +1,36 @@
+package fr.vter.xdcc.infrastructure.persistence.mongo;
+
+import com.google.common.reflect.TypeToken;
+import fr.vter.xdcc.model.EntityWithObjectId;
+import fr.vter.xdcc.model.Repository;
+import org.bson.types.ObjectId;
+import org.mongolink.MongoSession;
+import org.mongolink.domain.criteria.Criteria;
+
+public abstract class MongoLinkRepository<TEntity extends EntityWithObjectId> implements Repository<TEntity> {
+
+  protected MongoLinkRepository(MongoSession session) {
+    this.session = session;
+  }
+
+  @Override
+  public TEntity get(ObjectId id) {
+    return getSession().get(id, entityType());
+  }
+
+  protected Criteria criteria() {
+    return session.createCriteria(entityType());
+  }
+
+  protected Class<TEntity> entityType() {
+    return (Class<TEntity>) typeToken.getRawType();
+  }
+
+  protected MongoSession getSession() {
+    return session;
+  }
+
+  private final MongoSession session;
+  private final TypeToken<TEntity> typeToken = new TypeToken<TEntity>(getClass()) {
+  };
+}
