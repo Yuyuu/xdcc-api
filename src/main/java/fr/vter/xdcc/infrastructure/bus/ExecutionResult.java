@@ -10,7 +10,6 @@ public class ExecutionResult<TResponse> {
     return new ExecutionResult<>(error);
   }
 
-
   private ExecutionResult(TResponse response, boolean success) {
     this.response = response;
     this.success = success;

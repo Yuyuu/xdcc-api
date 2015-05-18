@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 public abstract class AsynchronousBus implements Bus {
 
   public AsynchronousBus(Set<? extends BusSynchronization> synchronizations, Set<? extends MessageHandler> handlers) {
-    handlers.stream().forEach(handler -> this.handlers.put(handler.commandType(), handler));
+    handlers.forEach(handler -> this.handlers.put(handler.commandType(), handler));
     this.synchronizations.addAll(synchronizations);
   }
 
