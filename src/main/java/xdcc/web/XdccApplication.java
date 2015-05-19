@@ -30,7 +30,8 @@ public class XdccApplication extends BaseApplication {
   protected Configuration routes() {
     return routes -> routes
         .setIocAdapter(new GuiceAdapter(injector))
-        .get("/", Payload.ok());
+        .get("/", Payload.ok())
+        .autoDiscover("xdcc.web.resource");
   }
 
   private final Injector injector;
