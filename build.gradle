@@ -27,8 +27,11 @@ test {
 
 dependencies {
   compile 'com.google.guava:guava:18.0'
-  compile "com.google.inject.extensions:guice-multibindings:$guiceVersion"
   compile "com.google.inject:guice:$guiceVersion"
+  compile('org.reflections:reflections:0.9.10') {
+    exclude group: 'org.javassist'
+  }
+  compile 'org.javassist:javassist:3.19.0-GA'
 
   compile('net.code-story:http:2.97') {
     exclude module: 'slf4j-simple'
