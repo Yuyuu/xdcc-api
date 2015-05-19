@@ -27,6 +27,7 @@ test {
 
 dependencies {
   compile 'com.google.guava:guava:18.0'
+  compile "com.google.inject.extensions:guice-multibindings:$guiceVersion"
   compile "com.google.inject:guice:$guiceVersion"
   compile('org.reflections:reflections:0.9.10') {
     exclude group: 'org.javassist'
