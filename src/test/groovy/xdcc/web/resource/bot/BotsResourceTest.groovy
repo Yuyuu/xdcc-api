@@ -4,7 +4,7 @@ import fr.vter.xdcc.infrastructure.bus.ExecutionResult
 import fr.vter.xdcc.search.SearchBus
 import spock.lang.Specification
 import xdcc.model.bot.Bot
-import xdcc.search.bot.AllTheBots
+import xdcc.search.bot.AllTheBotsSearch
 
 class BotsResourceTest extends Specification {
 
@@ -14,7 +14,7 @@ class BotsResourceTest extends Specification {
   def "returns all the bots"() {
     given:
     def bot = Mock(Bot)
-    searchBus.sendAndWaitResponse(_ as AllTheBots) >> ExecutionResult.success([bot])
+    searchBus.sendAndWaitResponse(_ as AllTheBotsSearch) >> ExecutionResult.success([bot])
 
     when:
     def result = botsResource.list()

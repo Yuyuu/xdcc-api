@@ -21,7 +21,7 @@ class SearchAllBotsHandlerTest extends Specification {
     ]
 
     when:
-    def results = new SearchAllBotsHandler().execute(new AllTheBots(), jongo.jongo())
+    def results = new SearchAllBotsHandler().execute(new AllTheBotsSearch(), jongo.jongo())
 
     then:
     results.size() == 2
