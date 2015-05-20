@@ -3,7 +3,6 @@ package xdcc.web.resource.bot;
 import fr.vter.xdcc.search.SearchBus;
 import net.codestory.http.annotations.Get;
 import net.codestory.http.annotations.Resource;
-import xdcc.model.bot.Bot;
 import xdcc.model.bot.BotMetadata;
 import xdcc.search.bot.AllTheBotsSearch;
 

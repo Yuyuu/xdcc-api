@@ -3,7 +3,6 @@ package xdcc.search.bot;
 import com.google.common.collect.Lists;
 import fr.vter.xdcc.search.JongoSearchHandler;
 import org.jongo.Jongo;
-import xdcc.model.bot.Bot;
 import xdcc.model.bot.BotMetadata;
 
 public class SearchAllBotsHandler extends JongoSearchHandler<AllTheBotsSearch, Iterable<BotMetadata>> {
