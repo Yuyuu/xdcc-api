@@ -30,7 +30,7 @@ public class ExecutionResult<TResponse> {
     return success;
   }
 
-  public boolean getError() {
+  public boolean isError() {
     return !success;
   }
 
