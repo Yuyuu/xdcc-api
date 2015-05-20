@@ -25,9 +25,8 @@ class SearchAllBotsHandlerTest extends Specification {
 
     then:
     results.size() == 2
-    def bob = results.first()
-    bob.id == bobId
-    bob.nickname == "bob"
-    bob.packs.first().title == "episode 6"
+    def bobMetadata = results.first()
+    bobMetadata.id == bobId
+    bobMetadata.nickname == "bob"
   }
 }

@@ -20,6 +20,6 @@ class BotsResourceTest extends Specification {
     def result = botsResource.list()
 
     then:
-    result == [bot]
+    result == [bot] as Iterable
   }
 }

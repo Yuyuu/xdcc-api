@@ -4,6 +4,7 @@ import fr.vter.xdcc.search.SearchBus;
 import net.codestory.http.annotations.Get;
 import net.codestory.http.annotations.Resource;
 import xdcc.model.bot.Bot;
+import xdcc.model.bot.BotMetadata;
 import xdcc.search.bot.AllTheBotsSearch;
 
 import javax.inject.Inject;
@@ -17,7 +18,7 @@ public class BotsResource {
   }
 
   @Get("/bot")
-  public Iterable<Bot> list() {
+  public Iterable<BotMetadata> list() {
     return searchBus.sendAndWaitResponse(new AllTheBotsSearch()).data();
   }
 

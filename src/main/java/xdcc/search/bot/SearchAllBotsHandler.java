@@ -4,11 +4,12 @@ import com.google.common.collect.Lists;
 import fr.vter.xdcc.search.JongoSearchHandler;
 import org.jongo.Jongo;
 import xdcc.model.bot.Bot;
+import xdcc.model.bot.BotMetadata;
 
-public class SearchAllBotsHandler extends JongoSearchHandler<AllTheBotsSearch, Iterable<Bot>> {
+public class SearchAllBotsHandler extends JongoSearchHandler<AllTheBotsSearch, Iterable<BotMetadata>> {
 
   @Override
-  protected Iterable<Bot> execute(AllTheBotsSearch search, Jongo jongo) {
-    return Lists.newArrayList((Iterable<Bot>) jongo.getCollection("bot").find().as(Bot.class));
+  protected Iterable<BotMetadata> execute(AllTheBotsSearch search, Jongo jongo) {
+    return Lists.newArrayList((Iterable<BotMetadata>) jongo.getCollection("bot").find().as(BotMetadata.class));
   }
 }
