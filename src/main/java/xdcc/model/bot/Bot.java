@@ -13,6 +13,11 @@ public class Bot implements EntityWithObjectId {
   @SuppressWarnings("unused")
   protected Bot() {}
 
+  public Bot(String nickname) {
+    _id = ObjectId.get();
+    this.nickname = nickname;
+  }
+
   @Override
   public ObjectId getId() {
     return _id;

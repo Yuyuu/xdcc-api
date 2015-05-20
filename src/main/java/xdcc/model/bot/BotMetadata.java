@@ -8,6 +8,11 @@ public class BotMetadata implements EntityWithObjectId {
 
   protected BotMetadata() {}
 
+  public BotMetadata(String nickname) {
+    id = ObjectId.get();
+    this.nickname = nickname;
+  }
+
   @Override
   public ObjectId getId() {
     return id;

@@ -9,6 +9,24 @@ public class Pack {
   @SuppressWarnings("unused")
   protected Pack() {}
 
+  public Pack(long position, String title, ObjectId botId) {
+    this.position = position;
+    this.title = title;
+    this.botId = botId;
+  }
+
+  public ObjectId botId() {
+    return botId;
+  }
+
+  public long position() {
+    return position;
+  }
+
+  public String title() {
+    return title;
+  }
+
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this)

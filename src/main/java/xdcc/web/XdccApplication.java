@@ -8,6 +8,7 @@ import net.codestory.http.Configuration;
 import net.codestory.http.injection.GuiceAdapter;
 import net.codestory.http.payload.Payload;
 import xdcc.web.configuration.GuiceConfiguration;
+import xdcc.web.configuration.XdccExtensions;
 
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class XdccApplication extends BaseApplication {
   @Override
   protected Configuration routes() {
     return routes -> routes
+        .setExtensions(new XdccExtensions())
         .setIocAdapter(new GuiceAdapter(injector))
         .get("/", Payload.ok())
         .autoDiscover("xdcc.web.resource");
