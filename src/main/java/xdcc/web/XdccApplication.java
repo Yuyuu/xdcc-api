@@ -33,6 +33,9 @@ public class XdccApplication extends BaseApplication {
         .setExtensions(new XdccExtensions())
         .setIocAdapter(new GuiceAdapter(injector))
         .get("/", Payload.ok())
+        .get("/_ah/start", "OK")
+        .get("/_ah/health", "OK")
+        .get("/_ah/stop", "OK")
         .autoDiscover("xdcc.web.resource");
   }
 
